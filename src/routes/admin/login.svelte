@@ -6,10 +6,10 @@
 	let enteredUsername: string;
 	let enteredPassword: string;
 
-	let succesfulLogin: boolean | null = null;
+	let succesfulLogin: boolean | undefined;
 
 	const attemptLogin = async () => {
-		const sendLoginToBackend = await fetch('/admin/validateLogin', {
+		const sendLoginToBackend = await fetch('/admin/attemptLogin', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -25,9 +25,7 @@
 			case 403:
 				succesfulLogin = false;
 				break;
-			default:
-				succesfulLogin = null;
-				break;
+			// No default case, what would succefulLogin's value change to anyway?
 		}
 
 		/* 
