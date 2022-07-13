@@ -30,7 +30,7 @@ export const get: RequestHandler = async ({ params }) => {
 export const update: RequestHandler = async ({ params, request }) => {
 
     const itemRequest = JSON.parse(await request.json());
-    if (itemRequest! instanceof ItemStock) {
+    if (!(itemRequest instanceof ItemStock)) {
         return {
             status: 400,
             body: "Invalid request body. Ensure it is a valid json entry of an ItemStock"
