@@ -20,16 +20,22 @@ export const get: RequestHandler = async ({ request }) => {
     if (enteredUsername === process.env["ADMIN_USERNAME"] && enteredPassword === process.env["ADMIN_PASSWORD"]) {
 
 
-        let headers;
-        if (request.headers.get("cookie") === null) {
-            headers = {
-                "Set-Cookie": `session=${sessions.createSession()}; SameSite=Strict; Secure`
-            };
-        } else headers = {};
+        const requestCookies = request.headers.get("cookie");
+
+        if (requestCookies !== null) {
+            const cookies = requestCookies.split(";");
+            for (const cookie of cookies) {
+                if (cookie.startsWith("sessionId=")) {
+                    sessions.removeSession(cookie.split("=")[1]);
+                    // We can continue to check jic there's a duplicate sessionId?
+                }
+            }
+        }
+
 
         return {
             status: 200,
-            headers: headers,
+            headers: { "Set-Cookie": `sessionId=${sessions.createSession()}` },
             body: "Successfully logged in",
         }
     } else {
