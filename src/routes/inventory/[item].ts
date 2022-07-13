@@ -12,11 +12,13 @@ export const match: ParamMatcher = (param) => {
     }
 }
 
+// Env variables validated to exist by $lib/mongoDB
+
+
 export const get: RequestHandler = async ({ params }) => {
 
     const dbConnection = await clientPromise;
 
-    // Env variables validated to exist by $lib/mongoDB
     const db = dbConnection.db(process.env["DB_NAME"]);
     const collection = db.collection(process.env["DB_STOCK_COLLECTION"] as string);
     const itemStock = (await collection.findOne({ name: params["item"] })) as ItemStock;
