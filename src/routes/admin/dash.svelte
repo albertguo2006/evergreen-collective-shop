@@ -1,23 +1,21 @@
-<script lang="ts" context="module">
-	import type { Load } from '@sveltejs/kit';
-
-	let isAuthenticated: boolean;
-	export const load: Load = async ({ session }) => {
-		isAuthenticated = session.authenticated;
-		return {
-			status: 200
-		};
-	};
-</script>
-
 <script lang="ts">
+	import AuthWall from '$lib/authWall.svelte';
 
+	import type ItemStock from '$lib/ItemStock';
 
+	export let isAuthenticated: boolean;
+	export let items: ItemStock[] | null = null;
 </script>
-
 
 {#if isAuthenticated}
-	<p>Authenticated</p>
+
+	<!-- Create a box around the items -->
+	<h2>Remaining stock of items:</h2>
+	{#if items !== null}
+		{#each items as item}
+			<p>{item.name}: {item.remaining}/{item.sold + item.remaining}</p>
+		{/each}
+	{/if}
 {:else}
-	<p>Not Authenticated</p>
+	<AuthWall />
 {/if}
