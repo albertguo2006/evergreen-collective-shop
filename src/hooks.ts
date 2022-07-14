@@ -10,7 +10,6 @@ sessions.subscribe(value => { //Hmm, this could cause a memory leak?
 export const getSession: GetSession = async ({ request, locals }) => {
 
     const cookies = request.headers.get("cookie")?.split(";");
-
     if (cookies !== undefined) {
         let sessionId: string | undefined;
 

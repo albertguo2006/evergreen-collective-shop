@@ -2,16 +2,35 @@
 	import AuthWall from '$lib/authWall.svelte';
 
 	import type ItemStock from '$lib/ItemStock';
+	import type { Purchase } from '$lib/Purchase';
+	import { onDestroy } from 'svelte';
 
 	export let isAuthenticated: boolean;
-	export let items: ItemStock[] | null = null;
+	export let items: ItemStock[] | undefined;
+	export let needsContacting: Purchase[] | undefined;
+	export let contacted: Purchase[] | undefined;
+	export let pickupArranged: Purchase[] | undefined;
 </script>
 
 {#if isAuthenticated}
 
+	<!-- Create a box around the status -->
+<table>
+	<tr>
+		<th>Needs Contacting</th>
+		<th>Contacted</th>
+		<th>Pickup Arranged</th>
+	</tr>
+	<tr>
+		<td>{#if needsContacting !== undefined} {needsContacting.length} {:else} "unknown" {/if}</td>
+		<td>{#if contacted !== undefined} {contacted.length} {:else} "unknown" {/if}</td>
+		<td>{#if pickupArranged !== undefined} {pickupArranged.length} {:else} "unknown" {/if}</td>
+	</tr>
+</table>
+
 	<!-- Create a box around the items -->
 	<h2>Remaining stock of items:</h2>
-	{#if items !== null}
+	{#if items !== undefined && items !== null}
 		{#each items as item}
 			<p>{item.name}: {item.remaining}/{item.sold + item.remaining}</p>
 		{/each}
