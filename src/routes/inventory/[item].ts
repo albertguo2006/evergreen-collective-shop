@@ -1,4 +1,5 @@
 import clientPromise from "$lib/mongoDB";
+import dotenv from "dotenv";
 import ItemStock from "$lib/ItemStock";
 import type { ParamMatcher, RequestHandler } from "@sveltejs/kit";
 
@@ -12,8 +13,7 @@ export const match: ParamMatcher = (param) => {
     }
 }
 
-// Env variables validated to exist by $lib/mongoDB
-
+dotenv.config();
 
 export const get: RequestHandler = async ({ params }) => {
 
@@ -21,7 +21,7 @@ export const get: RequestHandler = async ({ params }) => {
 
     const db = dbConnection.db(process.env["DB_NAME"]);
     const collection = db.collection(process.env["DB_STOCK_COLLECTION"] as string);
-    const itemStock = (await collection.findOne({ name: params["item"] })) as ItemStock;
+    const itemStock = await collection.findOne({ name: params["item"] }) as ItemStock;
 
     return {
         status: 200,
