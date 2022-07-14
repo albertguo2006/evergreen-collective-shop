@@ -1,5 +1,5 @@
 import { sessions } from "$lib/sessionManager";
-import type { GetSession, Handle } from "@sveltejs/kit";
+import type { GetSession } from "@sveltejs/kit";
 
 let sessionIds = Array<string>();
 
@@ -7,8 +7,10 @@ sessions.subscribe(value => { //Hmm, this could cause a memory leak?
     sessionIds = value;
 });
 
-export const getSession: GetSession = async ({ request }) => {
+export const getSession: GetSession = async ({ request, locals }) => {
+
     const cookies = request.headers.get("cookie")?.split(";");
+
     if (cookies !== undefined) {
         let sessionId: string | undefined;
 
@@ -20,14 +22,11 @@ export const getSession: GetSession = async ({ request }) => {
         }
         if (sessionId !== undefined) {
             if (sessionIds.includes(sessionId)) {
-                return {
-                    authenticated: true
-                };
+                locals.isAdmin = true
+                return { isAdmin: true };
             }
         }
     }
-
-    return {
-        authenticated: false
-    };
+    locals.isAdmin = false;
+    return { isAdmin: false };
 }
