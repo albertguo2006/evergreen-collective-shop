@@ -32,7 +32,7 @@ export const get: RequestHandler = async ({ locals }) => {
         }
     }
     return {
-        status: 403,
+        status: 200,
         body: { 
             isAuthenticated: false,
          }
