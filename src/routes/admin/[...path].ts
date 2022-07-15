@@ -1,7 +1,6 @@
 import type { RequestHandler } from "@sveltejs/kit";
 
 export const get: RequestHandler = async ({ locals }) => {
-    console.log(locals)
     if (locals.isAdmin) {
         return {
             status: 200,
