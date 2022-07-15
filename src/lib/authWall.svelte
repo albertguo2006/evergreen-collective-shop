@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+	export const prerender = true;
+</script>
+
 <article class="h-screen grid grid-column-1 place-items-center text-center">
 	<div class="top-1/4 text-3xl font-extrabold text-stone-900 mx-5">
 		<h2>Oops, you've stumbled onto an admin page.</h2>

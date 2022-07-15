@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+	export const prerender = true;
+</script>
+
 <nav class="grid grid-cols-3 h-20 content-center bg-neutral-700 text-slate-100">
 	<a href="/adimn/dash" class="col-start-2 place-self-center ">
 		<h2 class="text-xl font-extrabold text-center">Admin Panel</h2>
