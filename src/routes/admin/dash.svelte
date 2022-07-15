@@ -13,26 +13,37 @@
 </script>
 
 {#if isAuthenticated}
-
 	<!-- Create a box around the status -->
-<table>
-	<tr>
-		<th>Needs Contacting</th>
-		<th>Contacted</th>
-		<th>Pickup Arranged</th>
-	</tr>
-	<tr>
-		<td>{#if needsContacting !== undefined} {needsContacting.length} {:else} "unknown" {/if}</td>
-		<td>{#if contacted !== undefined} {contacted.length} {:else} "unknown" {/if}</td>
-		<td>{#if pickupArranged !== undefined} {pickupArranged.length} {:else} "unknown" {/if}</td>
-	</tr>
-</table>
+	<table>
+		<tr>
+			<th>Needs Contacting</th>
+			<th>Contacted</th>
+			<th>Pickup Arranged</th>
+		</tr>
+		<tr>
+			<td
+				>{#if needsContacting !== undefined} {needsContacting.length} {:else} "unknown" {/if}</td
+			>
+			<td
+				>{#if contacted !== undefined} {contacted.length} {:else} "unknown" {/if}</td
+			>
+			<td
+				>{#if pickupArranged !== undefined} {pickupArranged.length} {:else} "unknown" {/if}</td
+			>
+		</tr>
+	</table>
 
 	<!-- Create a box around the items -->
-	<h2>Remaining stock of items:</h2>
+	<h2>Number of items sold:</h2>
 	{#if items !== undefined && items !== null}
 		{#each items as item}
-			<p>{item.name}: {item.remaining}/{item.sold + item.remaining}</p>
+			<p>
+				{item.name}: {item.remainingIfLimited}/
+				{#if item.isUnlimited}
+					Unlimited
+				{:else}
+					{item.sold + item.remainingIfLimited}{/if}
+			</p>
 		{/each}
 	{/if}
 {:else}

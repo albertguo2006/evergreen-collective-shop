@@ -1,6 +1,6 @@
 import clientPromise from "$lib/mongoDB";
 import dotenv from "dotenv";
-import ItemStock from "$lib/ItemStock";
+import type ItemStock from "$lib/ItemStock";
 import type { ParamMatcher, RequestHandler } from "@sveltejs/kit";
 
 export const match: ParamMatcher = (param) => {
