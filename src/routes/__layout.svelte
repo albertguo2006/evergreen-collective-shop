@@ -8,7 +8,10 @@
 		faTiktok,
 		faTwitter
 	} from '@fortawesome/free-brands-svg-icons';
-	import { faCartShopping, faEnvelope, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+	
+	// Fix module being a CommonJS module, and thus not supporting named exports
+	import solidSvgIcons from "@fortawesome/free-solid-svg-icons";
+	const { faCartShopping, faEnvelope, faPaperPlane } = solidSvgIcons;
 </script>
 
 <!-- We need to include the body tag so that we can specify that it is flex. This allows the footer to always be placed to the bottom of the page -->
