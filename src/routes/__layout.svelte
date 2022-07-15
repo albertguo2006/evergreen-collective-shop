@@ -8,18 +8,14 @@
 		faTiktok,
 		faTwitter
 	} from '@fortawesome/free-brands-svg-icons';
-	import { faEnvelope, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+	import { faCartShopping, faEnvelope, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 </script>
 
 <!-- We need to include the body tag so that we can specify that it is flex. This allows the footer to always be placed to the bottom of the page -->
 <body class="flex flex-col h-screen bg-slate-200">
-	<!-- Image for shopping cart. We **could** use a fontawesome image, but I personally prefer this one from Google. No noticable difference to user -->
-	<link
-		rel="stylesheet"
-		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
-	/>
-
-	<nav class="grid grid-rows-1 grid-cols-8 place-items-center py-4 bg-slate-50">
+	<nav
+		class="grid grid-rows-1 grid-cols-8 place-items-center py-4 bg-slate-50 text-zinc-900 font-bold"
+	>
 		<a href="/" class="justify-self-start ml-[2rem]">
 			<!-- Set a minimum size so that the icon does not get shrunk out of existance -->
 			<img
@@ -29,12 +25,15 @@
 			/>
 		</a>
 
-		<a href="https://expeditioncedar.ca" class="col-start-6 col-span-2 justify-self-end">
+		<a
+			href="https://expeditioncedar.ca"
+			class="col-start-6 col-span-2 justify-self-end text-xl hover:text-indigo-400"
+		>
 			Main Site
 		</a>
 
 		<a href="/cart" class="col-start-8 justify-self-center">
-			<span class="block material-symbols-outlined"> shopping_cart </span>
+			<Fa icon={faCartShopping} size="2x" class=" hover:text-indigo-400" />
 		</a>
 	</nav>
 
@@ -50,27 +49,27 @@
 		</div>
 		<div class="grid grid-cols-6 place-items-center gap-x-5 my-3">
 			<a href="https://www.instagram.com/expeditioncedarorg/">
-				<Fa icon={faInstagram} size="1.25x" class="text-slate-50" />
+				<Fa icon={faInstagram} size="1.25x" class="text-slate-50 hover:text-indigo-200" />
 			</a>
 
 			<a href="https://twitter.com/cedarorg">
-				<Fa icon={faTwitter} size="1.25x" class="text-slate-50" />
+				<Fa icon={faTwitter} size="1.25x" class="text-slate-50 hover:text-indigo-200" />
 			</a>
 
 			<a href="https://www.facebook.com/ExpeditionCedarOrg">
-				<Fa icon={faFacebook} size="1.25x" class="text-slate-50" />
+				<Fa icon={faFacebook} size="1.25x" class="text-slate-50 hover:text-indigo-200" />
 			</a>
 
 			<a href="https://www.tiktok.com/@expeditioncedarorg">
-				<Fa icon={faTiktok} size="1.25x" class="text-slate-50" />
+				<Fa icon={faTiktok} size="1.25x" class="text-slate-50 hover:text-indigo-200" />
 			</a>
 
 			<a href="malito:expeditioncedarorganization@gmail.com">
-				<Fa icon={faEnvelope} size="1.25x" class="text-slate-50" />
+				<Fa icon={faEnvelope} size="1.25x" class="text-slate-50 hover:text-indigo-200" />
 			</a>
 
 			<a href="https://github.com/cloudate9/expedition-cedar-shop">
-				<Fa icon={faGithub} size="1.25x" class="text-slate-50 break" />
+				<Fa icon={faGithub} size="1.25x" class="text-slate-50 hover:text-indigo-200" />
 			</a>
 		</div>
 		<div class="my-5">
