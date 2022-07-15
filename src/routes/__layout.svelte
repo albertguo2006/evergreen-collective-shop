@@ -29,12 +29,12 @@
 			/>
 		</a>
 
-		<a href="https://expeditioncedar.ca" class="col-start-6 col-span-2 justify-self-end"
-			>Main Site</a
-		>
+		<a href="https://expeditioncedar.ca" class="col-start-6 col-span-2 justify-self-end">
+			Main Site
+		</a>
 
 		<a href="/cart" class="col-start-8 justify-self-center">
-			<span class="material-symbols-outlined"> shopping_cart </span>
+			<span class="block material-symbols-outlined"> shopping_cart </span>
 		</a>
 	</nav>
 
@@ -44,7 +44,7 @@
 	<!-- Am I overusing grids here? Maybe, but they get the job done :p -->
 	<footer class="mt-auto grid place-items-center bg-zinc-900">
 		<div class="grid grid-cols-1 place-items-center my-5">
-            <!-- For some reason, the <Fa/> icon isn't cenetered if it's not a child of something like a grid -->
+			<!-- For some reason, the <Fa/> icon isn't cenetered if it's not a child of something like a grid -->
 			<Fa icon={faPaperPlane} size="2x" class="mb-2 mt-5 text-slate-50" />
 			<h2 class="text-slate-50 text-2xl">Contact Us!</h2>
 		</div>
@@ -53,21 +53,21 @@
 				<Fa icon={faInstagram} size="1.25x" class="text-slate-50" />
 			</a>
 
-            <a href="https://twitter.com/cedarorg">
-			<Fa icon={faTwitter} size="1.25x" class="text-slate-50" />
-            </a>
+			<a href="https://twitter.com/cedarorg">
+				<Fa icon={faTwitter} size="1.25x" class="text-slate-50" />
+			</a>
 
-            <a href="https://www.facebook.com/ExpeditionCedarOrg">
-			<Fa icon={faFacebook} size="1.25x" class="text-slate-50" />
-            </a>
+			<a href="https://www.facebook.com/ExpeditionCedarOrg">
+				<Fa icon={faFacebook} size="1.25x" class="text-slate-50" />
+			</a>
 
-            <a href="https://www.tiktok.com/@expeditioncedarorg">
-			<Fa icon={faTiktok} size="1.25x" class="text-slate-50" />
-            </a>
+			<a href="https://www.tiktok.com/@expeditioncedarorg">
+				<Fa icon={faTiktok} size="1.25x" class="text-slate-50" />
+			</a>
 
-            <a href="malito:expeditioncedarorganization@gmail.com">
-			<Fa icon={faEnvelope} size="1.25x" class="text-slate-50" />
-            </a>
+			<a href="malito:expeditioncedarorganization@gmail.com">
+				<Fa icon={faEnvelope} size="1.25x" class="text-slate-50" />
+			</a>
 
 			<a href="https://github.com/cloudate9/expedition-cedar-shop">
 				<Fa icon={faGithub} size="1.25x" class="text-slate-50 break" />
