@@ -22,13 +22,13 @@
 		</tr>
 		<tr>
 			<td
-				>{#if needsContacting !== undefined} {needsContacting.length} {:else} "unknown" {/if}</td
+				>{#if needsContacting === undefined} "unknown" {:else} {needsContacting.length}{/if}</td
 			>
 			<td
-				>{#if contacted !== undefined} {contacted.length} {:else} "unknown" {/if}</td
+				>{#if contacted === undefined} "unknown" {:else} {contacted.length}{/if}</td
 			>
 			<td
-				>{#if pickupArranged !== undefined} {pickupArranged.length} {:else} "unknown" {/if}</td
+				>{#if pickupArranged === undefined} "unknown" {:else} {pickupArranged.length} {/if}</td
 			>
 		</tr>
 	</table>
