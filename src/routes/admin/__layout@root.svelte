@@ -1,2 +1,7 @@
-<a href="/">Back to user site</a>
-<slot></slot>
+<nav class="grid grid-cols-3 h-20 content-center bg-neutral-700 text-slate-100">
+	<a href="/adimn/dash" class="col-start-2 place-self-center ">
+		<h2 class="text-xl font-extrabold text-center">Admin Panel</h2>
+	</a>
+	<a href="/" class="col-start-3 place-self-end text-right text-lg mr-6">Back to user site</a>
+</nav>
+<slot />
