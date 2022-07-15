@@ -1,17 +1,13 @@
 <script lang="ts">
 	import '../app.css';
-	import Fa from 'svelte-fa';
-	import {
-		faFacebook,
-		faGithub,
-		faInstagram,
-		faTiktok,
-		faTwitter
-	} from '@fortawesome/free-brands-svg-icons';
-	
-	// Fix module being a CommonJS module, and thus not supporting named exports
-	import solidSvgIcons from "@fortawesome/free-solid-svg-icons";
-	const { faCartShopping, faEnvelope, faPaperPlane } = solidSvgIcons;
+	import ChatAlt2 from '@inqling/svelte-icons/outline/chat-alt-2.svelte';
+	import Facebook from '@inqling/svelte-icons/brand/facebook.svelte';
+	import GitHub from '@inqling/svelte-icons/brand/github.svelte';
+	import Instagram from '@inqling/svelte-icons/brand/instagram.svelte';
+	import Mail from '@inqling/svelte-icons/outline/mail.svelte';
+	import ShoppingCart from '@inqling/svelte-icons/outline/shopping-cart.svelte';
+	import TikTok from '@inqling/svelte-icons/brand/tiktok.svelte';
+	import Twitter from '@inqling/svelte-icons/brand/twitter.svelte';
 </script>
 
 <!-- We need to include the body tag so that we can specify that it is flex. This allows the footer to always be placed to the bottom of the page -->
@@ -36,7 +32,7 @@
 		</a>
 
 		<a href="/cart" class="col-start-8 justify-self-center">
-			<Fa icon={faCartShopping} size="2x" class=" hover:text-indigo-400" />
+			<ShoppingCart class="h-10 hover:text-indigo-400" />
 		</a>
 	</nav>
 
@@ -47,32 +43,32 @@
 	<footer class="mt-auto grid place-items-center bg-zinc-900">
 		<div class="grid grid-cols-1 place-items-center my-5">
 			<!-- For some reason, the <Fa/> icon isn't cenetered if it's not a child of something like a grid -->
-			<Fa icon={faPaperPlane} size="2x" class="mb-2 mt-5 text-slate-50" />
+			<ChatAlt2 class="h-10 mb-2 mt-5 text-slate-50" />
 			<h2 class="text-slate-50 text-2xl">Contact Us!</h2>
 		</div>
 		<div class="grid grid-cols-6 place-items-center gap-x-5 my-3">
 			<a href="https://www.instagram.com/expeditioncedarorg/">
-				<Fa icon={faInstagram} size="1.25x" class="text-slate-50 hover:text-indigo-200" />
+				<Instagram class="h-5 text-slate-50 hover:text-indigo-200" />
 			</a>
 
 			<a href="https://twitter.com/cedarorg">
-				<Fa icon={faTwitter} size="1.25x" class="text-slate-50 hover:text-indigo-200" />
+				<Twitter class="h-5 text-slate-50 hover:text-indigo-200" />
 			</a>
 
 			<a href="https://www.facebook.com/ExpeditionCedarOrg">
-				<Fa icon={faFacebook} size="1.25x" class="text-slate-50 hover:text-indigo-200" />
+				<Facebook class="h-5 text-slate-50 hover:text-indigo-200" />
 			</a>
 
 			<a href="https://www.tiktok.com/@expeditioncedarorg">
-				<Fa icon={faTiktok} size="1.25x" class="text-slate-50 hover:text-indigo-200" />
+				<TikTok class="h-5 text-slate-50 hover:text-indigo-200" />
 			</a>
 
 			<a href="malito:expeditioncedarorganization@gmail.com">
-				<Fa icon={faEnvelope} size="1.25x" class="text-slate-50 hover:text-indigo-200" />
+				<Mail class="h-6 text-slate-50 hover:text-indigo-200" />
 			</a>
 
 			<a href="https://github.com/cloudate9/expedition-cedar-shop">
-				<Fa icon={faGithub} size="1.25x" class="text-slate-50 hover:text-indigo-200" />
+				<GitHub class="h-5 text-slate-50 hover:text-indigo-200" />
 			</a>
 		</div>
 		<div class="my-5">

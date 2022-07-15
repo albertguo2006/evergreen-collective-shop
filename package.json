@@ -36,11 +36,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@fortawesome/free-brands-svg-icons": "^6.1.1",
-		"@fortawesome/free-regular-svg-icons": "^6.1.1",
-		"@fortawesome/free-solid-svg-icons": "^6.1.1",
+		"@inqling/svelte-icons": "^0.2.2",
 		"dotenv": "^16.0.1",
-		"mongodb": "^4.7.0",
-		"svelte-fa": "^3.0.3"
+		"mongodb": "^4.7.0"
 	}
 }
