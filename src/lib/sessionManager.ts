@@ -5,7 +5,7 @@ function createSessionManager() {
     return {
         subscribe,
         createSession: () => {
-            const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
+            const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             let sessionId = "";
             for (let i = 0; i < 40; i++) {
                 sessionId += characters.charAt(Math.floor(Math.random() * characters.length));
