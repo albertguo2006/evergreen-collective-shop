@@ -18,7 +18,7 @@
 		<a href="/" class="justify-self-start ml-[2rem]">
 			<!-- Set a minimum size so that the icon does not get shrunk out of existance -->
 			<img
-				src="src/lib/assets/icon.png"
+				src="src/lib/icon.png"
 				alt="The logo for Expedition Cedar"
 				class="min-w-[3rem] min-h-[3rem] w-24"
 			/>
