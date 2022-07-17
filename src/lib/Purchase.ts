@@ -1,7 +1,7 @@
 import type { ObjectId } from "mongodb";
 
 export class Purchase {
-    constructor(public email: string, public products: Item[], public contacted: boolean, public pickupArranged: boolean, public id?: ObjectId) {}
+    constructor(public name: string, public email: string, public products: Item[], public contacted: boolean, public pickupArranged: boolean, public id?: ObjectId) {}
 }
 
 export class Item {
