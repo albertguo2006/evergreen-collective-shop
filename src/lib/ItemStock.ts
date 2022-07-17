@@ -6,7 +6,7 @@ export default class ItemStock {
         public sold: number,
         public isUnlimited: boolean,
         public remainingIfLimited: number,
-        public currentPrice: number,
+        public currentPriceCents: number,
         public _id?: ObjectId
     ) { }
 }
