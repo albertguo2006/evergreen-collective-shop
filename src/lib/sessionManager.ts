@@ -17,7 +17,7 @@ function createSessionManager() {
             // The cookie is actually valid for less than 24 hours, as cookies are cleared on the server every 24 hours, regardless of when a cookie is set
             const expires = new Date();
             expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24));
-            return sessionId + `; SameSite=Strict; Secure; Expires=${expires.toUTCString()}`;
+            return sessionId + `; SameSite=Strict; Secure; HttpOnly; Expires=${expires.toUTCString()}`;
         },
         removeSession: (sessionId: string) => update(arr => arr.filter(id => id !== sessionId)),
         clearAllSessions: () => update(arr => [])
