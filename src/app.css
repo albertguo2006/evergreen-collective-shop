@@ -4,10 +4,19 @@
 
 @layer utilities {
     .striped div:nth-child(odd) {
-        @apply bg-slate-200
+        @apply bg-gray-300
     }
     
     .striped div:nth-child(even) {
+        @apply bg-gray-400
+    }
+
+    /* Create an alt method to be the inverse of the above `striped` pattern */
+    .striped-alt div:nth-child(odd) {
+        @apply bg-gray-400
+    }
+    
+    .striped-alt div:nth-child(even) {
         @apply bg-gray-300
     }
 }
