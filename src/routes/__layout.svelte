@@ -65,7 +65,7 @@
 				<TikTok class="h-5 text-slate-50 hover:text-indigo-200" />
 			</a>
 
-			<a href="malito:expeditioncedarorganization@gmail.com">
+			<a href="malito:evergreencollectivefoundation@gmail.com">
 				<Mail class="h-6 text-slate-50 hover:text-indigo-200" />
 			</a>
 
