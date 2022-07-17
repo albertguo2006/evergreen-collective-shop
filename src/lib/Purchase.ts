@@ -5,5 +5,5 @@ export class Purchase {
 }
 
 export class Item {
-    constructor(public name: string, public price: number, public quantity: number) {}
+    constructor(public name: string, public priceCentsAtSale: number, public quantity: number) {}
 }
