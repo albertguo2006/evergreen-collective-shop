@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import type { RequestHandler } from "@sveltejs/kit";
 import { sessions } from "$lib/sessionManager";
+import { timingSafeEqual } from "crypto";
 
 dotenv.config();
 
@@ -16,9 +17,8 @@ export const get: RequestHandler = async ({ request }) => {
         };
     }
 
-
-    if (enteredUsername === process.env["ADMIN_USERNAME"] && enteredPassword === process.env["ADMIN_PASSWORD"]) {
-
+    if (timingSafeEqual(Buffer.alloc(enteredUsername.length, enteredUsername), Buffer.alloc(process.env["ADMIN_USERNAME"]!.length, process.env["ADMIN_USERNAME"]))
+        && timingSafeEqual(Buffer.alloc(enteredPassword.length, enteredPassword), Buffer.alloc(process.env["ADMIN_PASSWORD"]!.length, process.env["ADMIN_PASSWORD"]))) {
 
         const requestCookies = request.headers.get("cookie");
 
