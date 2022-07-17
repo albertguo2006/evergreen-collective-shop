@@ -8,6 +8,8 @@
 	import ShoppingCart from '@inqling/svelte-icons/outline/shopping-cart.svelte';
 	import TikTok from '@inqling/svelte-icons/brand/tiktok.svelte';
 	import Twitter from '@inqling/svelte-icons/brand/twitter.svelte';
+
+	import logo from "$lib/assets/logo.png";
 </script>
 
 <!-- We need to include the body tag so that we can specify that it is flex. This allows the footer to always be placed to the bottom of the page -->
@@ -18,7 +20,7 @@
 		<a href="/" class="justify-self-start ml-[2rem]">
 			<!-- Set a minimum size so that the icon does not get shrunk out of existance -->
 			<img
-				src="src/lib/icon.png"
+				src={logo}
 				alt="The logo for Expedition Cedar"
 				class="min-w-[3rem] min-h-[3rem] w-24"
 			/>
