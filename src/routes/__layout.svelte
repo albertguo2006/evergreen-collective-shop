@@ -21,7 +21,7 @@
 			<!-- Set a minimum size so that the icon does not get shrunk out of existance -->
 			<img
 				src={logo}
-				alt="The logo for Expedition Cedar"
+				alt="The logo for Evergreen Collective"
 				class="min-w-[3rem] min-h-[3rem] w-24"
 			/>
 		</a>
@@ -49,7 +49,7 @@
 			<h2 class="text-slate-50 text-2xl">Contact Us!</h2>
 		</div>
 		<div class="grid grid-cols-6 place-items-center gap-x-5 my-3">
-			<a href="https://www.instagram.com/expeditioncedarorg/">
+			<a href="https://www.instagram.com/evergreencollectivefoundation/">
 				<Instagram class="h-5 text-slate-50 hover:text-indigo-200" />
 			</a>
 
@@ -57,7 +57,7 @@
 				<Twitter class="h-5 text-slate-50 hover:text-indigo-200" />
 			</a>
 
-			<a href="https://www.facebook.com/ExpeditionCedarOrg">
+			<a href="https://www.facebook.com/EvergreenCollectiveFoundation">
 				<Facebook class="h-5 text-slate-50 hover:text-indigo-200" />
 			</a>
 
@@ -69,12 +69,12 @@
 				<Mail class="h-6 text-slate-50 hover:text-indigo-200" />
 			</a>
 
-			<a href="https://github.com/cloudate9/expedition-cedar-shop">
+			<a href="https://github.com/cloudate9/evergreen-collective-shop">
 				<GitHub class="h-5 text-slate-50 hover:text-indigo-200" />
 			</a>
 		</div>
 		<div class="my-5">
-			<p class="text-slate-50">Copyright &copy; Expedition Cedar 2022; AGPLv3</p>
+			<p class="text-slate-50">Copyright &copy; Evergreen Collective Foundation 2022; AGPLv3</p>
 		</div>
 	</footer>
 </body>
