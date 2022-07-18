@@ -5,12 +5,14 @@
 
 	import type ItemStock from '$lib/ItemStock';
 	import type { Purchase } from '$lib/Purchase';
+	import { onMount } from 'svelte';
 
-	export let isAuthenticated: boolean;
-	export let items: ItemStock[] | undefined;
-	export let needsContacting: Purchase[] | undefined;
-	export let contacted: Purchase[] | undefined;
-	export let pickupArranged: Purchase[] | undefined;
+	// While the following values could be obtained by `export const`, it is more consistent to actually work if we use onMount()
+	let isAuthenticated: boolean;
+	let items: ItemStock[] | undefined;
+	let needsContacting: Purchase[] | undefined;
+	let contacted: Purchase[] | undefined;
+	let pickupArranged: Purchase[] | undefined;
 
 	let showNeedsContacting = true;
 	let showContacted = true;
@@ -18,6 +20,21 @@
 
 	let itemFilter = '';
 	let purchaseFilter = '';
+
+	onMount(async () => {
+		const res = await fetch('/admin/dashInfo/', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		const json = await res.json();
+		isAuthenticated = json.isAuthenticated;
+		items = json.items;
+		needsContacting = json.needsContacting;
+		contacted = json.contacted;
+		pickupArranged = json.pickupArranged;
+	});
 </script>
 
 <svelte:head>
@@ -27,7 +44,7 @@
 <!-- NOTE: The values {itemFilter} and {purchaseFilter} are supposed to be lowercase, enforced by the `lowercase` property in their input field's css. 
 There is no manual conversion to lowercase for the filters (but there is for the values that are being checked) -->
 
-{#if isAuthenticated}
+{#if isAuthenticated == true}
 	<div class="flex flex-col xl:flex-row gap-10 justify-center m-4">
 		<div
 			class="w-11/12 xl:w-1/3 self-center xl:self-auto mt-10 p-4 border-2 border-slate-500 rounded-lg"
@@ -172,6 +189,6 @@ There is no manual conversion to lowercase for the filters (but there is for the
 			</div>
 		</div>
 	</div>
-{:else}
+{:else if isAuthenticated == false}
 	<AuthWall />
 {/if}
