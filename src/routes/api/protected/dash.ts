@@ -1,6 +1,6 @@
 import clientPromise from "$lib/mongoDB";
 import dotenv from "dotenv";
-import { isAuthorized } from "./authCheck";
+import { isAuthorized } from "../public/authCheck";
 import type { RequestHandler } from "@sveltejs/kit";
 import type ItemStock from "$lib/ItemStock";
 import type { Purchase } from "$lib/Purchase";

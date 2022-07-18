@@ -6,23 +6,24 @@
 
 	const attemptLogin = async () => {
 		succesfulLogin = null; // Reset state, so that message is also reset
-		const sendLoginToBackend = await fetch('/admin/attemptLogin', {
-			method: 'GET',
+		const sendLoginToBackend = await fetch('/api/public/adminLogin/', {
+			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
-				Username: enteredUsername,
-				Password: enteredPassword
-			}
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				username: enteredUsername,
+				password: enteredPassword
+			})
 		});
 
 		switch (sendLoginToBackend.status) {
 			case 200:
 				succesfulLogin = true;
 				break;
-			case 403:
+			default:
 				succesfulLogin = false;
 				break;
-			// No default case, what would succefulLogin's value change to anyway?
 		}
 
 		/* 

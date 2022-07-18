@@ -7,18 +7,17 @@ dotenv.config();
 
 export const post: RequestHandler = async ({ request }) => {
 
-    const enteredUsername = request.headers.get("Username");
-    const enteredPassword = request.headers.get("Password");
+    const { username, password } = await request.json();
 
-    if (enteredUsername === null || enteredPassword === null) {
+    if (username === null || password === null) {
         return {
             status: 401,
-            body: "Invalid request body. Ensure it is a valid json entry of enteredUsername and enteredPassword"
+            body: "Invalid request body. Ensure it is a valid json entry of username and password"
         };
     }
 
-    if (timingSafeEqual(Buffer.alloc(enteredUsername.length, enteredUsername), Buffer.alloc(process.env["ADMIN_USERNAME"]!.length, process.env["ADMIN_USERNAME"]))
-        && timingSafeEqual(Buffer.alloc(enteredPassword.length, enteredPassword), Buffer.alloc(process.env["ADMIN_PASSWORD"]!.length, process.env["ADMIN_PASSWORD"]))) {
+    if (timingSafeEqual(Buffer.alloc(username.length, username), Buffer.alloc(process.env["ADMIN_USERNAME"]!.length, process.env["ADMIN_USERNAME"]))
+        && timingSafeEqual(Buffer.alloc(password.length, password), Buffer.alloc(process.env["ADMIN_PASSWORD"]!.length, process.env["ADMIN_PASSWORD"]))) {
 
         const requestCookies = request.headers.get("cookie");
 
@@ -32,7 +31,7 @@ export const post: RequestHandler = async ({ request }) => {
             }
         }
 
-        const sessionId = sessions.createSession();
+        const sessionId = sessions.createSession("/api");
 
         return {
             status: 200,

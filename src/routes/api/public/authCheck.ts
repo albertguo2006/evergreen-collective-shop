@@ -19,6 +19,7 @@ export const get: RequestHandler = async ({ request }) => {
 }
 
 export function isAuthorized(cookies: string[] | undefined): boolean {
+
     if (cookies !== undefined) {
         let sessionId: string | undefined;
 
