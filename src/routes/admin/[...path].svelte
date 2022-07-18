@@ -6,7 +6,7 @@ import { onMount } from 'svelte';
 	let isAuthenticated: boolean;
 
 	onMount(async () => {
-		const res = await fetch('/admin/authCheck/', {
+		const res = await fetch('/api/public/authCheck', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
