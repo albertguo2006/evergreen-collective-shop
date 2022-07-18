@@ -66,7 +66,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 										.toLowerCase()
 										.includes(itemFilter))}
 								<div>
-									<a href="/admin/item/{item.name}" class="block">
+									<a href="/admin/items/{item.name}" class="block">
 										{item.name}:
 									</a>
 								</div>
@@ -81,7 +81,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 										.toLowerCase()
 										.includes(itemFilter))}
 								<div>
-									<a href="/admin/item/{item.name}" class="block">
+									<a href="/admin/items/{item.name}" class="block">
 										{item.sold} /
 										{#if item.isUnlimited}
 											Unlimited
@@ -125,7 +125,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchase/{purchase._id}" class="block">
+									<a href="/admin/purchases/{purchase._id}" class="block">
 										{purchase.email}
 									</a>
 								</div>
@@ -152,7 +152,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchase/{purchase._id}" class="block">
+									<a href="/admin/purchases/{purchase._id}" class="block">
 										{purchase.email}
 									</a>
 								</div>
@@ -179,7 +179,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchase/{purchase._id}" class="block">
+									<a href="/admin/purchases/{purchase._id}" class="block">
 										{purchase.email}
 									</a>
 								</div>
