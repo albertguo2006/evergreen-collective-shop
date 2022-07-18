@@ -8,7 +8,7 @@
 	import { onMount } from 'svelte';
 
 	// While the following values could be obtained by `export const`, it is more consistent to actually work if we use onMount()
-	let isAuthenticated: boolean;
+	let isAuthenticated: boolean | undefined;
 	let items: ItemStock[] | undefined;
 	let needsContacting: Purchase[] | undefined;
 	let contacted: Purchase[] | undefined;
