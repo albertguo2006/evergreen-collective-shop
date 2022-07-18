@@ -1,4 +1,5 @@
 <script lang="ts" context="module">
+	export const hydrate = false;
 	export const prerender = true;
 </script>
 
