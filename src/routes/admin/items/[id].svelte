@@ -4,7 +4,7 @@
 	let objectId: string;
 
 	export const load: Load = async ({ params }) => {
-		objectId = params['id'];	
+		objectId = params['id'];
 		return {
 			status: 200
 		};
@@ -19,6 +19,7 @@
 	let isAuthenticated: boolean | undefined;
 	let originalItem: ItemStock | undefined;
 
+	let editedName: string | undefined;
 	let editedPrice: number | undefined;
 	let editedUnlimited: boolean | undefined;
 	let editedStock: number | undefined | null;
@@ -45,6 +46,7 @@
 		const json = await itemRes.json();
 		originalItem = json.item;
 
+		editedName = originalItem?.name;
 		editedPrice = originalItem?.currentPriceCents;
 		editedUnlimited = originalItem?.isUnlimited;
 		editedStock = originalItem?.originalStockIfLimited;
@@ -92,7 +94,7 @@
 
 					<div class="m-2">
 						<h2>{originalItem._id}</h2>
-						<h2>{originalItem.name}</h2>
+						<h2><input type="text" bind:value={editedName} class="bg-gray-300" /></h2>
 						<h2><input type="number" bind:value={editedSold} class="bg-gray-300" /></h2>
 						<h2><input type="checkbox" bind:checked={editedUnlimited} class="h-5" /></h2>
 						{#if !editedUnlimited}
@@ -105,9 +107,9 @@
 						</h2>
 					</div>
 				</div>
-				{#if (typeof editedSold === 'number' && editedSold !== originalItem.sold) || (editedUnlimited && editedUnlimited !== originalItem.isUnlimited) || (!editedUnlimited && typeof editedStock === 'number' && editedUnlimited != originalItem.isUnlimited) || (typeof editedStock === 'number' && !editedUnlimited && editedStock !== originalItem.originalStockIfLimited) || (typeof editedPrice === 'number' && editedPrice !== originalItem.currentPriceCents)}
-					// Need a special check to ensure that when edited unlimited is false, the stock number is
-					non-null
+
+				<!-- Need a special check to ensure that when edited unlimited is false, the stock number is non-null, on top of all other checks -->
+				{#if (typeof editedName === 'string' && editedName !== '' && editedName !== originalItem.name) || (typeof editedSold === 'number' && editedSold !== originalItem.sold) || (editedUnlimited && editedUnlimited !== originalItem.isUnlimited) || (!editedUnlimited && typeof editedStock === 'number' && editedUnlimited != originalItem.isUnlimited) || (typeof editedStock === 'number' && !editedUnlimited && editedStock !== originalItem.originalStockIfLimited) || (typeof editedPrice === 'number' && editedPrice !== originalItem.currentPriceCents)}
 					<button
 						type="submit"
 						class="block h-12 mt-2 rounded-lg bg-red-500"
