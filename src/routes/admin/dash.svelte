@@ -66,7 +66,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 										.toLowerCase()
 										.includes(itemFilter))}
 								<div>
-									<a href="/admin/items/{item.name}" class="block">
+									<a href="/admin/items/{item._id}" class="block">
 										{item.name}:
 									</a>
 								</div>
@@ -81,12 +81,12 @@ There is no manual conversion to lowercase for the filters (but there is for the
 										.toLowerCase()
 										.includes(itemFilter))}
 								<div>
-									<a href="/admin/items/{item.name}" class="block">
+									<a href="/admin/items/{item._id}" class="block">
 										{item.sold} /
 										{#if item.isUnlimited}
 											Unlimited
 										{:else}
-											{item.sold + item.remainingIfLimited}{/if}
+											{item.originalStockIfLimited}{/if}
 									</a>
 								</div>
 							{/if}
