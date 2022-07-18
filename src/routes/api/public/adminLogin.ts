@@ -5,7 +5,7 @@ import { timingSafeEqual } from "crypto";
 
 dotenv.config();
 
-export const get: RequestHandler = async ({ request }) => {
+export const post: RequestHandler = async ({ request }) => {
 
     const enteredUsername = request.headers.get("Username");
     const enteredPassword = request.headers.get("Password");
@@ -32,11 +32,12 @@ export const get: RequestHandler = async ({ request }) => {
             }
         }
 
+        const sessionId = sessions.createSession();
 
         return {
             status: 200,
-            headers: { "Set-Cookie": `sessionId=${sessions.createSession()}` },
-            body: "Successfully logged in",
+            headers: { "Set-Cookie": `sessionId=${sessionId}` },
+            body: sessionId
         }
     } else {
         return {
@@ -44,4 +45,6 @@ export const get: RequestHandler = async ({ request }) => {
             body: "Invalid username or password"
         }
     }
+
+
 }
