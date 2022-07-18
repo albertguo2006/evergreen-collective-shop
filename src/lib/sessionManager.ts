@@ -4,7 +4,7 @@ function createSessionManager() {
     const { subscribe, set, update } = writable<Array<string>>([]);
     return {
         subscribe,
-        createSession: () => {
+        createSession: (path?: string) => {
             const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             let sessionId = "";
             for (let i = 0; i < 40; i++) {
@@ -17,7 +17,8 @@ function createSessionManager() {
             // The cookie is actually valid for less than 24 hours, as cookies are cleared on the server every 24 hours, regardless of when a cookie is set
             const expires = new Date();
             expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24));
-            return sessionId + `; SameSite=Strict; Secure; HttpOnly; Expires=${expires.toUTCString()}`;
+            const options = path === undefined ? "" : `; Path=${path}` + `; SameSite=Strict; Secure; HttpOnly; Expires=${expires.toUTCString()}`;
+            return sessionId + options;
         },
         removeSession: (sessionId: string) => update(arr => arr.filter(id => id !== sessionId)),
         clearAllSessions: () => update(arr => [])
