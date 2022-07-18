@@ -22,7 +22,7 @@
 	let purchaseFilter = '';
 
 	onMount(async () => {
-		const res = await fetch('/admin/dashInfo/', {
+		const res = await fetch('/api/protected/dash', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
@@ -30,6 +30,7 @@
 		});
 		const json = await res.json();
 		isAuthenticated = json.isAuthenticated;
+		if (!isAuthenticated) return; // No need to fetch info that we won't use, and there is probably no other data as well
 		items = json.items;
 		needsContacting = json.needsContacting;
 		contacted = json.contacted;
