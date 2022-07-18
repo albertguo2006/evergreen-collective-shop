@@ -13,6 +13,8 @@ export const get: RequestHandler = async () => {
 
     return {
         status: 200,
-        body: itemStock
+        body: {
+            items: itemStock
+        }
     }
 }

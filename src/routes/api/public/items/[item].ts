@@ -16,7 +16,9 @@ export const get: RequestHandler = async ({ params }) => {
 
     return {
         status: 200,
-        body: itemStock 
+        body: {
+            item: itemStock
+        }
     };
 
 }
