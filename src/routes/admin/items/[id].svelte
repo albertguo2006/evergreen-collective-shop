@@ -16,7 +16,7 @@
 	import type ItemStock from '$lib/ItemStock';
 	import { onMount } from 'svelte';
 
-	let isAuthenticated: boolean | undefined;
+	let isAuthorized: boolean | undefined;
 	let originalItem: ItemStock | undefined;
 
 	let editedName: string | undefined;
@@ -33,9 +33,9 @@
 			}
 		});
 		const authJson = await authCheck.json();
-		isAuthenticated = authJson.isAuthenticated;
+		isAuthorized = authJson.isAuthorized;
 
-		if (!isAuthenticated) return; // No need to fetch info that we won't use
+		if (!isAuthorized) return; // No need to fetch info that we won't use
 
 		const itemRes = await fetch(`/api/public/items/${objectId}`, {
 			method: 'GET',
@@ -65,7 +65,7 @@
 	<title>Manage {originalItem?.name ?? 'item'}</title>
 </svelte:head>
 
-{#if isAuthenticated == true}
+{#if isAuthorized == true}
 	{#if originalItem !== undefined && editedPrice !== undefined && editedUnlimited !== undefined && editedStock !== undefined && editedSold !== undefined}
 		<div class="flex flex-col xl:flex-row gap-10 justify-center mx-4 mt-10">
 			<div class="flex flex-col w-11/12 xl:w-1/3 self-center xl:self-auto p-4">
@@ -119,7 +119,7 @@
 			</div>
 		</div>
 	{/if}
-{:else if isAuthenticated == false}
+{:else if isAuthorized == false}
 	<AuthWall />
 {/if}
 

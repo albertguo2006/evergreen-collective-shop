@@ -9,32 +9,35 @@ sessions.subscribe(value => { //Hmm, this could cause a memory leak?
 
 export const get: RequestHandler = async ({ request }) => {
     const cookies = request.headers.get("cookie")?.split(";");
-    
+    const responseCode = isAuthorized(cookies);
+
     return {
-        code: 200,
+        code: responseCode,
         body: {
-            isAuthenticated: isAuthorized(cookies)
+            isAuthorized: responseCode === 200
         }
     }
 }
 
-export function isAuthorized(cookies: string[] | undefined): boolean {
+export function isAuthorized(cookies: string[] | undefined): 200 | 401 | 403 {
 
-    if (cookies !== undefined) {
-        let sessionId: string | undefined;
+    if (cookies === undefined) return 401;
 
-        for (const cookie of cookies) {
-            if (cookie.startsWith("sessionId=")) {
-                sessionId = cookie.split("=")[1];
-                break;
-            }
-        }
-        if (sessionId !== undefined) {
-            if (sessionIds.includes(sessionId)) {
-                return true;
-            }
+    let sessionId: string | undefined;
+
+    for (const cookie of cookies) {
+        if (cookie.startsWith("sessionId=")) {
+            sessionId = cookie.split("=")[1];
+            break;
         }
     }
 
-    return false;
+    if (sessionId === undefined) return 401;
+    if (sessionIds.includes(sessionId)) return 200;
+
+    // Auth failed
+    return 403;
+
+
+
 }

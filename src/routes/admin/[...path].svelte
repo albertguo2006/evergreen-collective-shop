@@ -3,7 +3,7 @@
 	import PageNotFound from '$lib/PageNotFound.svelte';
 import { onMount } from 'svelte';
 
-	let isAuthenticated: boolean;
+	let isAuthorized: boolean;
 
 	onMount(async () => {
 		const res = await fetch('/api/public/authCheck', {
@@ -13,12 +13,12 @@ import { onMount } from 'svelte';
 			}
 		});
 		const json = await res.json();
-		isAuthenticated = json.isAuthenticated;
+		isAuthorized = json.isAuthorized;
 	});
 </script>
 
-{#if isAuthenticated == true}
+{#if isAuthorized == true}
 	<PageNotFound />
-{:else if isAuthenticated == false}
+{:else if isAuthorized == false}
 	<AuthWall />
 {/if}

@@ -8,7 +8,7 @@
 	import { onMount } from 'svelte';
 
 	// While the following values could be obtained by `export const`, it is more consistent to actually work if we use onMount()
-	let isAuthenticated: boolean | undefined;
+	let isAuthorized: boolean | undefined;
 	let items: ItemStock[] | undefined;
 	let needsContacting: Purchase[] | undefined;
 	let contacted: Purchase[] | undefined;
@@ -29,8 +29,8 @@
 			}
 		});
 		const json = await res.json();
-		isAuthenticated = json.isAuthenticated;
-		if (!isAuthenticated) return; // No need to fetch info that we won't use, and there is probably no other data as well
+		isAuthorized = json.isAuthorized;
+		if (!isAuthorized) return; // No need to fetch info that we won't use, and there is probably no other data as well
 		items = json.items;
 		needsContacting = json.needsContacting;
 		contacted = json.contacted;
@@ -45,7 +45,7 @@
 <!-- NOTE: The values {itemFilter} and {purchaseFilter} are supposed to be lowercase, enforced by the `lowercase` property in their input field's css. 
 There is no manual conversion to lowercase for the filters (but there is for the values that are being checked) -->
 
-{#if isAuthenticated == true}
+{#if isAuthorized == true}
 	<div class="flex flex-col xl:flex-row gap-10 justify-center m-4">
 		<div
 			class="w-11/12 xl:w-1/3 self-center xl:self-auto mt-10 p-4 border-2 border-slate-500 rounded-lg"
@@ -190,6 +190,6 @@ There is no manual conversion to lowercase for the filters (but there is for the
 			</div>
 		</div>
 	</div>
-{:else if isAuthenticated == false}
+{:else if isAuthorized == false}
 	<AuthWall />
 {/if}
