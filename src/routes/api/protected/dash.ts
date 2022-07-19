@@ -29,6 +29,7 @@ export const get: RequestHandler = async ({ request }) => {
     const needsContacting = await purchaseCollection.find({ contacted: false, pickupArranged: false }).toArray() as unknown as Purchase[];
     const contacted = await purchaseCollection.find({ contacted: true, pickupArranged: false }).toArray() as unknown as Purchase[];
     const pickupArranged = await purchaseCollection.find({ contacted: true, pickupArranged: true }).toArray() as unknown as Purchase[];
+    const pickupComplete = await purchaseCollection.find({ contacted: true, pickupArranged: true, pickupComplete: true }).toArray() as unknown as Purchase[];
 
     return {
         status: 200,
@@ -37,7 +38,8 @@ export const get: RequestHandler = async ({ request }) => {
             items: items,
             needsContacting: needsContacting,
             contacted: contacted,
-            pickupArranged: pickupArranged
+            pickupArranged: pickupArranged,
+            pickupComplete: pickupComplete
         }
     }
 
