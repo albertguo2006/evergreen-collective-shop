@@ -7,8 +7,8 @@
 	export const load: Load = async ({ status }) => {
         errorCode = status;
         return {
-            code: 200
-        }
+            status: 200
+        };
     };
 </script>
 
