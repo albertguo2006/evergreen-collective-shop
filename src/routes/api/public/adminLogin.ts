@@ -40,7 +40,7 @@ export const post: RequestHandler = async ({ request }) => {
         }
     } else {
         return {
-            status: 403,
+            status: 401,
             body: "Invalid username or password"
         }
     }
