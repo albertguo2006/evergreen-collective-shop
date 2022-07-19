@@ -16,6 +16,6 @@
 <AuthWall />
 {:else if errorCode !== undefined && errorCode !== null}
 <article class="h-screen grid grid-column-1 place-items-center text-center">
-	<h1 class="top-1/4 text-5xl font-extrabold text-stone-900 ">An unexpected error occurred</h1>
+	<h1 class="top-1/4 text-5xl font-extrabold text-stone-900 ">{errorCode}: An unexpected error occurred</h1>
 </article>
 {/if}
