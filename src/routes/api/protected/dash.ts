@@ -26,10 +26,10 @@ export const get: RequestHandler = async ({ request }) => {
     const items = await stockCollection.find({}).toArray() as ItemStock[];
 
     const purchaseCollection = db.collection(process.env["DB_PURCHASE_COLLECTION"] as string);
-    const needsContacting = await purchaseCollection.find({ contacted: false, pickupArranged: false }).toArray() as unknown as Purchase[];
-    const contacted = await purchaseCollection.find({ contacted: true, pickupArranged: false }).toArray() as unknown as Purchase[];
-    const pickupArranged = await purchaseCollection.find({ contacted: true, pickupArranged: true }).toArray() as unknown as Purchase[];
-    const pickupComplete = await purchaseCollection.find({ contacted: true, pickupArranged: true, pickupComplete: true }).toArray() as unknown as Purchase[];
+    const needsContacting = await purchaseCollection.find({ contacted: false, pickupArranged: false, pickupCompleted: false }).toArray() as unknown as Purchase[];
+    const contacted = await purchaseCollection.find({ contacted: true, pickupArranged: false, pickupCompleted: false }).toArray() as unknown as Purchase[];
+    const pickupArranged = await purchaseCollection.find({ contacted: true, pickupArranged: true, pickupCompleted: false }).toArray() as unknown as Purchase[];
+    const pickupCompleted = await purchaseCollection.find({ contacted: true, pickupArranged: true, pickupCompleted: true }).toArray() as unknown as Purchase[];
 
     return {
         status: 200,
@@ -39,7 +39,7 @@ export const get: RequestHandler = async ({ request }) => {
             needsContacting: needsContacting,
             contacted: contacted,
             pickupArranged: pickupArranged,
-            pickupComplete: pickupComplete
+            pickupCompleted: pickupCompleted
         }
     }
 
