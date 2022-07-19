@@ -25,6 +25,8 @@
 	let editedStock: number | undefined | null;
 	let editedSold: number | undefined;
 
+	let successfullyUpdated: boolean | undefined;
+
 	onMount(async () => {
 		const authCheck = await fetch('/api/public/authCheck', {
 			method: 'GET',
@@ -53,11 +55,59 @@
 		editedSold = originalItem?.sold;
 	});
 
-	function submitChanges() {
+	async function submitChanges() {
 		const confirmed = confirm(
 			'Are you sure that you want to submit these changes? This action is irreversible.'
 		);
 		if (!confirmed) return;
+		if (objectId === undefined) {
+			successfullyUpdated = false;
+			return;
+		}
+
+		let body: any = {}; //We don't really have any way to type this
+		if (typeof editedName === 'string' && editedName !== '' && editedName !== originalItem?.name) {
+			body.name = editedName;
+		}
+
+		if (typeof editedSold === 'number' && editedSold !== originalItem?.sold) {
+			body.sold = editedSold;
+		}
+
+		if (editedUnlimited && editedUnlimited !== originalItem?.isUnlimited) {
+			body.sold = editedSold;
+		}
+
+		if (
+			!editedUnlimited &&
+			typeof editedStock === 'number' &&
+			editedUnlimited != originalItem?.isUnlimited
+		) {
+			body.isUnlimited = editedUnlimited;
+		}
+
+		if (
+			typeof editedStock === 'number' &&
+			!editedUnlimited &&
+			editedStock !== originalItem?.originalStockIfLimited
+		) {
+			body.originalStockIfLimited = editedStock;
+		}
+
+		if (typeof editedPrice === 'number' && editedPrice !== originalItem?.currentPriceCents) {
+			body.currentPriceCents = editedPrice;
+		}
+
+		const update = await fetch(`/api/protected/items/${objectId}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(body)
+		});
+
+		successfullyUpdated = update.ok;
+		if (successfullyUpdated) window.location.reload();
 	}
 </script>
 
@@ -115,6 +165,11 @@
 						class="block h-12 mt-2 rounded-lg bg-red-500"
 						on:click={submitChanges}>Submit changes</button
 					>
+				{/if}
+				{#if successfullyUpdated === true}
+					<p class="text-emerald-700">Updated Successful</p>
+				{:else if successfullyUpdated === false}
+					<p class="text-red-600">Update Failed</p>
 				{/if}
 			</div>
 		</div>
