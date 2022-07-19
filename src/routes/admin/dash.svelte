@@ -13,10 +13,12 @@
 	let needsContacting: Purchase[] | undefined;
 	let contacted: Purchase[] | undefined;
 	let pickupArranged: Purchase[] | undefined;
+	let pickupCompleted: Purchase[] | undefined;
 
 	let showNeedsContacting = true;
 	let showContacted = true;
 	let showPickupArranged = true;
+	let showPickupCompleted = true;
 
 	let itemFilter = '';
 	let purchaseFilter = '';
@@ -35,6 +37,7 @@
 		needsContacting = json.needsContacting;
 		contacted = json.contacted;
 		pickupArranged = json.pickupArranged;
+		pickupCompleted = json.pickupCompleted;
 	});
 </script>
 
@@ -106,7 +109,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 				bind:value={purchaseFilter}
 			/>
 
-			<div class="grid grid-cols-1 xl:grid-cols-3 gap-2">
+			<div class="grid grid-cols-1 xl:grid-cols-2 gap-2">
 				<div class="striped">
 					<button on:click={() => (showNeedsContacting = !showNeedsContacting)}>
 						{#if showNeedsContacting}
@@ -173,6 +176,32 @@ There is no manual conversion to lowercase for the filters (but there is for the
 
 					{#if showPickupArranged && pickupArranged !== undefined && pickupArranged !== null}
 						{#each pickupArranged as purchase}
+							{#if purchaseFilter.length == 0 || (purchaseFilter.length > 0 && (purchase.name
+										.toLowerCase()
+										.includes(purchaseFilter) || purchase.email
+											.toLowerCase()
+											.includes(purchaseFilter)))}
+								<div>
+									<a href="/admin/purchases/{purchase._id}" class="block">
+										{purchase.email}
+									</a>
+								</div>
+							{/if}
+						{/each}
+					{/if}
+				</div>
+				<div class="striped-alt">
+					<button on:click={() => (showPickupCompleted = !showPickupCompleted)}>
+						{#if showPickupCompleted}
+							<CheveronDown class="h-5" />
+						{:else}
+							<CheveronRight class="h-5" />
+						{/if}
+						Pickup Completed:
+					</button>
+	
+					{#if showPickupCompleted && pickupCompleted !== undefined && pickupCompleted !== null}
+						{#each pickupCompleted as purchase}
 							{#if purchaseFilter.length == 0 || (purchaseFilter.length > 0 && (purchase.name
 										.toLowerCase()
 										.includes(purchaseFilter) || purchase.email
