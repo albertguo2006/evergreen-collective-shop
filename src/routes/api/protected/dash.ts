@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { isAuthorized } from "../public/authCheck";
 import type { RequestHandler } from "@sveltejs/kit";
 import type ItemStock from "$lib/ItemStock";
-import type { Purchase } from "$lib/Purchase";
+import { Purchase, PurchaseStatus } from "$lib/Purchase";
 
 dotenv.config();
 
@@ -26,10 +26,10 @@ export const get: RequestHandler = async ({ request }) => {
     const items = await stockCollection.find({}).toArray() as ItemStock[];
 
     const purchaseCollection = db.collection(process.env["DB_PURCHASE_COLLECTION"] as string);
-    const needsContacting = await purchaseCollection.find({ contacted: false, pickupArranged: false, pickupCompleted: false }).toArray() as unknown as Purchase[];
-    const contacted = await purchaseCollection.find({ contacted: true, pickupArranged: false, pickupCompleted: false }).toArray() as unknown as Purchase[];
-    const pickupArranged = await purchaseCollection.find({ contacted: true, pickupArranged: true, pickupCompleted: false }).toArray() as unknown as Purchase[];
-    const pickupCompleted = await purchaseCollection.find({ contacted: true, pickupArranged: true, pickupCompleted: true }).toArray() as unknown as Purchase[];
+    const needsContacting = await purchaseCollection.find({ status: PurchaseStatus.NeedsContacting }).toArray() as unknown as Purchase[];
+    const contacted = await purchaseCollection.find({ status: PurchaseStatus.Contacted }).toArray() as unknown as Purchase[];
+    const pickupArranged = await purchaseCollection.find({ status: PurchaseStatus.PickupArranged }).toArray() as unknown as Purchase[];
+    const completed = await purchaseCollection.find({ status: PurchaseStatus.Completed }).toArray() as unknown as Purchase[];
 
     return {
         status: 200,
@@ -39,7 +39,7 @@ export const get: RequestHandler = async ({ request }) => {
             needsContacting: needsContacting,
             contacted: contacted,
             pickupArranged: pickupArranged,
-            pickupCompleted: pickupCompleted
+            completed: completed
         }
     }
 

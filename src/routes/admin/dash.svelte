@@ -13,12 +13,12 @@
 	let needsContacting: Purchase[] | undefined;
 	let contacted: Purchase[] | undefined;
 	let pickupArranged: Purchase[] | undefined;
-	let pickupCompleted: Purchase[] | undefined;
+	let completed: Purchase[] | undefined;
 
 	let showNeedsContacting = true;
 	let showContacted = true;
 	let showPickupArranged = true;
-	let showPickupCompleted = true;
+	let showCompleted = true;
 
 	let itemFilter = '';
 	let purchaseFilter = '';
@@ -37,7 +37,7 @@
 		needsContacting = json.needsContacting;
 		contacted = json.contacted;
 		pickupArranged = json.pickupArranged;
-		pickupCompleted = json.pickupCompleted;
+		completed = json.completed;
 	});
 </script>
 
@@ -191,17 +191,17 @@ There is no manual conversion to lowercase for the filters (but there is for the
 					{/if}
 				</div>
 				<div class="striped-alt">
-					<button on:click={() => (showPickupCompleted = !showPickupCompleted)}>
-						{#if showPickupCompleted}
+					<button on:click={() => (showCompleted = !showCompleted)}>
+						{#if showCompleted}
 							<CheveronDown class="h-5" />
 						{:else}
 							<CheveronRight class="h-5" />
 						{/if}
-						Pickup Completed:
+						Completed:
 					</button>
 	
-					{#if showPickupCompleted && pickupCompleted !== undefined && pickupCompleted !== null}
-						{#each pickupCompleted as purchase}
+					{#if showCompleted && completed !== undefined && completed !== null}
+						{#each completed as purchase}
 							{#if purchaseFilter.length == 0 || (purchaseFilter.length > 0 && (purchase.name
 										.toLowerCase()
 										.includes(purchaseFilter) || purchase.email
