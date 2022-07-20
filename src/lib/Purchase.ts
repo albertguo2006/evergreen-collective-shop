@@ -5,7 +5,7 @@ export class Purchase {
 }
 
 export class Product {
-    constructor(public name: string, public priceCentsAtSale: number, public quantity: number) {}
+    constructor(public productId: ObjectId, public priceCentsAtSale: number, public quantity: number) {}
 }
 
 export enum PurchaseStatus {
