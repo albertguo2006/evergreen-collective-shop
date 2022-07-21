@@ -1,3 +1,22 @@
+<script lang="ts">
+	import type ItemStock from '$lib/ItemStock';
+	import { onMount } from 'svelte';
+
+	let itemsToSell: ItemStock[] | undefined;
+
+	onMount(async () => {
+		const itemRes = await fetch('/api/public/items', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		const itemsJson = await itemRes.json();
+		itemsToSell = itemsJson.items;
+	});
+</script>
+
 <svelte:head>
 	<title>Shop</title>
 	<meta charset="utf-8" />
@@ -5,4 +24,32 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 </svelte:head>
 
-<h1>Welcome</h1>
+<h1 class="text-2xl font-bold text-stone-900 mx-auto pt-10 text-center">
+	The Evergreen Collective Foundation Shop. Take a look round :)
+</h1>
+
+<div class="flex flex-col py-10 items-center">
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 w-4/5">
+		{#if itemsToSell !== undefined}
+			{#each itemsToSell as item}
+				<a href="/item/{item._id}" class="w-11/12">
+					<div class="p-6 mb-6 rounded-2xl bg-gray-300 space-y-4 text-center">
+						<img alt="Picture of {item.name}" src="/images/{item._id}.png" class="h-48 mx-auto" />
+						<h2 class="text-stone-900 font-bold capitalize">{item.name}</h2>
+
+						<h2 class="text-red-600">
+							{#if item.isUnlimited}
+								Unlimited Stock
+							{:else if item.sold < (item?.originalStockIfLimited ?? -1)}
+								<!-- This would never succeed if original stock is null -->
+								Remaining Stock: {(item?.originalStockIfLimited ?? item.sold) - item.sold}
+							{:else}
+								Sold Out
+							{/if}
+						</h2>
+					</div>
+				</a>
+			{/each}
+		{/if}
+	</div>
+</div>
