@@ -294,7 +294,6 @@
 					</div>
 				</div>
 
-				<!-- {#if stringCheck(originalItem.name, editedName) || wholeNumberCheck(originalItem.currentPriceCents, editedPrice) || isUnlimitedCheck(originalItem.isUnlimited, editedUnlimited, editedStock) || (!isUnlimitedCheck && wholeNumberCheck(originalItem?.originalStockIfLimited, editedStock)) || wholeNumberCheck(originalItem.sold, editedSold)} -->
 				{#if stringCheck(originalPurchase.name, editedName) || emailCheck(originalPurchase.email, editedEmail) || productCheck(originalPurchase.products, editedProducts) || stringCheck(originalPurchase.status, editedStatus)}
 					<button
 						type="submit"
