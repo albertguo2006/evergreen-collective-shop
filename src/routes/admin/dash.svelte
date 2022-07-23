@@ -34,6 +34,7 @@
 		isAuthorized = json.isAuthorized;
 		if (!isAuthorized) return; // No need to fetch info that we won't use, and there is probably no other data as well
 		items = json.items;
+		items?.sort((a, b) => a.name.localeCompare(b.name));
 		needsContacting = json.needsContacting;
 		contacted = json.contacted;
 		pickupArranged = json.pickupArranged;
