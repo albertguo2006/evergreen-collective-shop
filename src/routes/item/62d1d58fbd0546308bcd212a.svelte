@@ -2,14 +2,19 @@
 import ItemShowcase from "$lib/ItemShowcase.svelte";
 
 const objectIdString = "62d1d58fbd0546308bcd212a";
-const description = `
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-# sunt in culpa qui officia deserunt mollit anim id est laborum.
-`;
 </script>
 
-<ItemShowcase objectId={objectIdString} descriptionMarkdown={description}/>
-
+<ItemShowcase objectId={objectIdString}>
+	<h2>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+		labore et dolore magna aliqua.
+	</h2>
+	<h2>
+		Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+		fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+	</h2>
+	<h2 class="font-bold">
+		sunt in culpa qui officia deserunt mollit anim id est laborum.
+	</h2>
+</ItemShowcase>

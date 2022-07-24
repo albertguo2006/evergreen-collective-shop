@@ -4,10 +4,8 @@
 	import Minus from '@inqling/svelte-icons/solid/minus.svelte';
 	import { onMount } from 'svelte';
 	import Plus from '@inqling/svelte-icons/solid/plus.svelte';
-	import SvelteMarkdown from 'svelte-markdown';
 
 	export let objectId: string;
-	export let descriptionMarkdown: string;
 
 	let item: ItemStock | undefined;
 	let quantityString = '1';
@@ -136,8 +134,9 @@
 
 				<div>
 					<h2 class="font-semibold mb-2">Description</h2>
-
-					<SvelteMarkdown source={descriptionMarkdown} />
+					<slot>
+						<em>Description not found :(</em>
+						</slot>
 				</div>
 			</div>
 		</div>
