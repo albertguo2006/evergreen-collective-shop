@@ -80,7 +80,7 @@
 			<div>
 				<img
 					alt="Picture of {item.name}"
-					src="/images/{item._id}.png"
+					src="/images/{item._id}.jpeg"
 					class=" rounded-lg mx-auto"
 				/>
 			</div>

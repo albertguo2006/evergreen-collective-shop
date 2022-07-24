@@ -128,7 +128,7 @@
 		<div class="flex flex-col 2xl:flex-row gap-10 justify-center mx-4 mt-10">
 			<div class="flex flex-col w-11/12 2xl:w-1/3 self-center 2xl:self-auto p-4">
 				<img
-					src="/images/{objectId}.png"
+					src="/images/{objectId}.jpeg"
 					alt="A picture of a(n) {originalItem.name}"
 					class="border-4 border-slate-500 rounded h-5/12 self-center"
 				/>

@@ -35,7 +35,7 @@
 			{#each itemsToSell as item}
 				<a href="/item/{item._id}" class="w-11/12 h-11/12 hover:w-full hover:h-full duration-300">
 					<div class="p-6 mb-6 rounded-2xl bg-gray-300 space-y-4">
-						<img alt="Picture of {item.name}" src="/images/{item._id}.png" class="h-48 mx-auto" />
+						<img alt="Picture of {item.name}" src="/images/{item._id}.jpeg" class="h-48 mx-auto" />
 						<h2 class="text-stone-900 font-bold capitalize text-center">{item.name}</h2>
 					</div>
 				</a>
