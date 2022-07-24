@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AuthWall from '$lib/authWall.svelte';
+	import AuthWall from '$lib/AuthWall.svelte';
 	import CheveronDown from '@inqling/svelte-icons/solid/chevron-down.svelte';
 	import CheveronRight from '@inqling/svelte-icons/solid/chevron-right.svelte';
 

@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import AuthWall from '$lib/authWall.svelte';
+	import AuthWall from '$lib/AuthWall.svelte';
 	import type { Load } from '@sveltejs/kit';
 
     let errorCode: number | undefined | null;

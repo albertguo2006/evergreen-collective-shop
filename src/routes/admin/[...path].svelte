@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AuthWall from '$lib/authWall.svelte';
+	import AuthWall from '$lib/AuthWall.svelte';
 	import PageNotFound from '$lib/PageNotFound.svelte';
 import { onMount } from 'svelte';
 

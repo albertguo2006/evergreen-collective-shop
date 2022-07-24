@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts">
-	import AuthWall from '$lib/authWall.svelte';
+	import AuthWall from '$lib/AuthWall.svelte';
 	import type ItemStock from '$lib/ItemStock';
 	import { onMount } from 'svelte';
 
