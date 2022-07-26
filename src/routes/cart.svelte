@@ -7,7 +7,9 @@
 	import XCircle from '@inqling/svelte-icons/outline/x-circle.svelte';
 
 	let availableItems: ItemStock[] | undefined;
-	let isAllPurchasesValid = false;
+
+	let email: string | undefined;
+	let confirmEmail: string | undefined;
 
 	onMount(async () => obtainAvailableItems());
 
@@ -20,7 +22,6 @@
 		});
 		const json = await itemRes.json();
 		availableItems = json.items;
-		allPurchasesValid();
 	}
 
 	function getRef(cartItem: CartItem): ItemStock | undefined {
@@ -31,30 +32,45 @@
 		return n > 0 && !n.toString().includes('.');
 	}
 
-	function allPurchasesValid() {
-		console.log('yes');
-		for (const cartItem of $cart) {
-			const itemModel = getRef(cartItem);
+	function isPurchaseValid(cartItem: CartItem): boolean {
+		const itemModel = getRef(cartItem);
 
-			if (itemModel === undefined) {
-				isAllPurchasesValid = false;
-				return;
-			}
+		if (itemModel === undefined) {
+			return false;
+		}
 
-			if (
-				!itemModel.isUnlimited &&
-				cartItem.quantity > itemModel.originalStockIfLimited! - itemModel.sold
-			) {
-				isAllPurchasesValid = false;
-				return;
-			}
+		if (
+			!itemModel.isUnlimited &&
+			cartItem.quantity > itemModel.originalStockIfLimited! - itemModel.sold
+		) {
+			return false;
+		}
 
-			if (!validateNaturalNumber(cartItem.quantity)) {
-				isAllPurchasesValid = false;
-				return;
+		if (!validateNaturalNumber(cartItem.quantity)) {
+			return false;
+		}
+		return true;
+	}
+
+	function allPurchasesValid(cart: CartItem[]): boolean {
+		for (const cartItem of cart) {
+			if (!isPurchaseValid(cartItem)) {
+				return false;
 			}
 		}
-		isAllPurchasesValid = true;
+		return true;
+	}
+
+	function emailCheck(potentialEmail: string | undefined): boolean {
+		return (
+			//Equiv to stringCheck()
+			potentialEmail !== undefined &&
+			potentialEmail !== '' &&
+			// Ensure it's an email address
+			potentialEmail.includes('@') &&
+			potentialEmail.includes('.') &&
+			potentialEmail.slice(-1) !== '.'
+		);
 	}
 </script>
 
@@ -62,7 +78,7 @@
 	<title>Cart</title>
 </svelte:head>
 
-<div class="flex flex-col py-10">
+<div class="flex flex-col md:flex-row py-10">
 	{#if availableItems !== undefined}
 		{#if $cart.length <= 0}
 			<h1 class="text-2xl font-bold text-stone-900 text-center">
@@ -119,7 +135,7 @@
 										<input
 											type="number"
 											bind:value={cartItem.quantity}
-											on:click|preventDefault={allPurchasesValid}
+											on:click|preventDefault
 											class="bg-gray-200 h-8 w-12 rounded-lg text-center justify-self-end lg:hidden"
 										/>
 									</div>
@@ -142,7 +158,7 @@
 								<input
 									type="number"
 									bind:value={cartItem.quantity}
-									on:click|preventDefault={allPurchasesValid}
+									on:click|preventDefault
 									class="bg-gray-200 h-8 w-12 rounded-lg text-center justify-self-center hidden lg:block"
 								/>
 
@@ -162,11 +178,80 @@
 					</a>
 				{/each}
 			</div>
-			<div class="flex w-5/12">
-				{#if isAllPurchasesValid}
-					put checkout bar here
+			<div class="flex flex-col h-max md:w-5/12 gap-y-4">
+				<div
+					class="flex flex-col bg-gray-300 rounded-lg m-4 p-4 gap-y-4 md:gap-y-8 hover:opacity-75 duration-150"
+				>
+					<h2 class="font-semibold">Order summary:</h2>
+					<div class="grid grid-cols-2 gap-y-2">
+						{#each $cart as cartItem (cartItem.itemId)}
+							{#if getRef(cartItem)}
+								<!-- WARNING: The below sign is not the 'x' character. It is the '×' character. -->
+								{#if isPurchaseValid(cartItem)}
+									<h2>
+										{cartItem.quantity} × {getRef(cartItem)?.name}
+									</h2>
+									<h2 class="justify-self-end">
+										{(
+											(cartItem.quantity * (getRef(cartItem)?.currentPriceCents ?? NaN)) /
+											100
+										).toLocaleString('en-CA', {
+											style: 'currency',
+											currency: 'CAD'
+										})}
+									</h2>
+								{:else}
+									<h2 class="text-red-600 col-span-2">
+										Invalid quantity for {getRef(cartItem)?.name}
+									</h2>
+								{/if}
+							{/if}
+						{/each}
+						{#if allPurchasesValid($cart)}
+							<h2>Total:</h2>
+							<h2 class="justify-self-end">
+								{(
+									$cart.reduce((subTotal, item) => {
+										return subTotal + item.quantity * (getRef(item)?.currentPriceCents ?? NaN);
+									}, 0) / 100
+								).toLocaleString('en-CA', {
+									style: 'currency',
+									currency: 'CAD'
+								})}
+							</h2>
+						{/if}
+					</div>
+				</div>
+				<div class="flex flex-col rounded-lg m-4 p-4 gap-y-4 hover:opacity-75 duration-150">
+					{#if allPurchasesValid($cart)}
+						<h2 class="font-semibold">
+							Enter your email. We need it to contact you about pickup of your items
+						</h2>
+						{#if email !== undefined}
+							{#if !emailCheck(email)}
+								<h2 class="text-red-600 text-center">Invalid email</h2>
+							{:else if confirmEmail !== undefined && email !== confirmEmail}
+								<h2 class="text-red-600 text-center">Email addresses do not match</h2>
+							{/if}
+						{/if}
+						<input
+							type="email"
+							bind:value={email}
+							placeholder="Email"
+							class="bg-gray-300 rounded-md text-center"
+						/>
+						<input
+							type="email"
+							bind:value={confirmEmail}
+							placeholder="Confirm your email"
+							class="bg-gray-300 rounded-md text-center"
+						/>
+					{/if}
+				</div>
+				{#if emailCheck(email) && email === confirmEmail}
+					PAYMENT BUTTON
 				{:else}
-					sad
+					DISABLED PAYMENT BUTTON
 				{/if}
 			</div>
 		{/if}
