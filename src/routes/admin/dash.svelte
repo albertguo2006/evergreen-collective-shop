@@ -62,41 +62,27 @@ There is no manual conversion to lowercase for the filters (but there is for the
 				bind:value={itemFilter}
 			/>
 
-			<div class="grid grid-cols-2">
-				<div class="striped">
-					{#if items !== undefined && items !== null}
-						{#each items as item}
-							{#if itemFilter.length == 0 || (itemFilter.length > 0 && item.name
-										.toLowerCase()
-										.includes(itemFilter))}
-								<div>
-									<a href="/admin/items/{item._id}" class="block">
-										{item.name}:
-									</a>
-								</div>
-							{/if}
-						{/each}
-					{/if}
-				</div>
-				<div class="striped">
-					{#if items !== undefined && items !== null}
-						{#each items as item}
-							{#if itemFilter.length == 0 || (itemFilter.length > 0 && item.name
-										.toLowerCase()
-										.includes(itemFilter))}
-								<div>
-									<a href="/admin/items/{item._id}" class="block">
-										{item.sold} /
-										{#if item.isUnlimited}
-											Unlimited
-										{:else}
-											{item.originalStockIfLimited}{/if}
-									</a>
-								</div>
-							{/if}
-						{/each}
-					{/if}
-				</div>
+			<div class="grid grid-cols-2 gap-y-2">
+				{#if items !== undefined && items !== null}
+					{#each items as item}
+						{#if itemFilter.length == 0 || (itemFilter.length > 0 && item.name
+									.toLowerCase()
+									.includes(itemFilter))}
+							<div class="hover:bg-gray-300">
+								<a href="/admin/items/{item._id}" class="block">
+									{item.name}:
+								</a>
+								<a href="/admin/items/{item._id}" class="block">
+									{item.sold} /
+									{#if item.isUnlimited}
+										Unlimited
+									{:else}
+										{item.originalStockIfLimited}{/if}
+								</a>
+							</div>
+						{/if}
+					{/each}
+				{/if}
 			</div>
 		</div>
 		<div
@@ -111,7 +97,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 			/>
 
 			<div class="grid grid-cols-1 xl:grid-cols-2 gap-2">
-				<div class="striped">
+				<div>
 					<button on:click={() => (showNeedsContacting = !showNeedsContacting)}>
 						{#if showNeedsContacting}
 							<CheveronDown class="h-5" />
@@ -129,7 +115,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchases/{purchase._id}" class="block">
+									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 block">
 										{purchase.email}
 									</a>
 								</div>
@@ -138,7 +124,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 					{/if}
 				</div>
 
-				<div class="striped-alt">
+				<div>
 					<button on:click={() => (showContacted = !showContacted)}>
 						{#if showContacted}
 							<CheveronDown class="h-5" />
@@ -156,7 +142,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchases/{purchase._id}" class="block">
+									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 block">
 										{purchase.email}
 									</a>
 								</div>
@@ -165,7 +151,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 					{/if}
 				</div>
 
-				<div class="striped">
+				<div>
 					<button on:click={() => (showPickupArranged = !showPickupArranged)}>
 						{#if showPickupArranged}
 							<CheveronDown class="h-5" />
@@ -183,7 +169,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchases/{purchase._id}" class="block">
+									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 block">
 										{purchase.email}
 									</a>
 								</div>
@@ -191,7 +177,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 						{/each}
 					{/if}
 				</div>
-				<div class="striped-alt">
+				<div>
 					<button on:click={() => (showCompleted = !showCompleted)}>
 						{#if showCompleted}
 							<CheveronDown class="h-5" />
@@ -200,7 +186,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 						{/if}
 						Completed:
 					</button>
-	
+
 					{#if showCompleted && completed !== undefined && completed !== null}
 						{#each completed as purchase}
 							{#if purchaseFilter.length == 0 || (purchaseFilter.length > 0 && (purchase.name
@@ -209,7 +195,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchases/{purchase._id}" class="block">
+									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 block">
 										{purchase.email}
 									</a>
 								</div>
