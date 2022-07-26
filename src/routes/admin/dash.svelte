@@ -52,7 +52,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 {#if isAuthorized == true}
 	<div class="flex flex-col xl:flex-row gap-10 justify-center m-4">
 		<div
-			class="w-11/12 xl:w-1/3 self-center xl:self-auto mt-10 p-4 border-2 border-slate-500 rounded-lg"
+			class="w-11/12 xl:w-1/3 h-max self-center xl:self-auto mt-10 p-4 border-2 border-slate-500 rounded-lg"
 		>
 			<h2 class="mb-4 border-b-2 border-slate-500">Number of items sold:</h2>
 			<input
@@ -100,7 +100,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 			</div>
 		</div>
 		<div
-			class="w-11/12 xl:w-2/3 self-center xl:self-auto xl:mt-24 p-3 border-[3px] border-slate-500 rounded-lg"
+			class="w-11/12 xl:w-2/3 h-max self-center xl:self-auto xl:mt-24 p-3 border-[3px] border-slate-500 rounded-lg"
 		>
 			<h2 class="mb-4 border-b-2 border-slate-500">Order status:</h2>
 			<input
