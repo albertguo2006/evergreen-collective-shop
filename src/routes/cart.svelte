@@ -81,7 +81,7 @@
 <div class="flex flex-col md:flex-row py-10">
 	{#if availableItems !== undefined}
 		{#if $cart.length <= 0}
-			<h1 class="text-2xl font-bold text-stone-900 text-center">
+			<h1 class="text-2xl font-bold text-stone-900 text-center mx-auto">
 				Your cart is empty. Explore some items to add to your cart?
 			</h1>
 		{:else}
