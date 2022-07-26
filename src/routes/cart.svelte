@@ -98,7 +98,7 @@
 								</button>
 							</div>
 
-							<div class="grid grid-flow-col w-3/4 mt-5 md:mt-1">
+							<div class="grid grid-flow-col lg:grid-cols-2 w-3/4 mt-5 md:mt-1">
 								<div class="grid grid-row-1">
 									<div class="mb-8">
 										<h2 class="text-stone-900 font-bold capitalize">
@@ -143,7 +143,7 @@
 									type="number"
 									bind:value={cartItem.quantity}
 									on:click|preventDefault={allPurchasesValid}
-									class="bg-gray-200 h-8 w-12 rounded-lg text-center justify-self-end hidden lg:block"
+									class="bg-gray-200 h-8 w-12 rounded-lg text-center justify-self-center hidden lg:block"
 								/>
 
 								<button
