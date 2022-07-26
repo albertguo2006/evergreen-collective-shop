@@ -2,10 +2,10 @@
 	let enteredUsername: string;
 	let enteredPassword: string;
 
-	let succesfulLogin: boolean | null = null;
+	let successfulLogin: boolean | null = null;
 
 	const attemptLogin = async () => {
-		succesfulLogin = null; // Reset state, so that message is also reset
+		successfulLogin = null; // Reset state, so that message is also reset
 		const sendLoginToBackend = await fetch('/api/public/adminLogin/', {
 			method: 'POST',
 			headers: {
@@ -19,10 +19,10 @@
 
 		switch (sendLoginToBackend.status) {
 			case 200:
-				succesfulLogin = true;
+				successfulLogin = true;
 				break;
 			default:
-				succesfulLogin = false;
+				successfulLogin = false;
 				break;
 		}
 
@@ -30,7 +30,7 @@
         Use href instead of replace, cause user should be able to see login page
         As an added benefit, this page does not auto redirect when logged in, so the user won"t be stuck in a reload loop if they use the back button
         */
-		if (succesfulLogin == true) window.location.href = '/admin/dash';
+		if (successfulLogin == true) window.location.href = '/admin/dash';
 	};
 
 	function loginByEnterKey(event: KeyboardEvent) {
@@ -101,9 +101,9 @@
 		</div>
 	</div>
 	<div class="flex justify-center items-center mt-6">
-		{#if succesfulLogin === true}
+		{#if successfulLogin === true}
 			<p class="text-emerald-700 dark:text-green-500">Login successful, redirecting...</p>
-		{:else if succesfulLogin === false}
+		{:else if successfulLogin === false}
 			<p class="text-red-600 dark:text-red-500">Incorrect username or password, please try again</p>
 		{/if}
 </div>

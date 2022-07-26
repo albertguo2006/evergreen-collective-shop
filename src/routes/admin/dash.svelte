@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AuthWall from '$lib/AuthWall.svelte';
-	import CheveronDown from '@inqling/svelte-icons/solid/chevron-down.svelte';
-	import CheveronRight from '@inqling/svelte-icons/solid/chevron-right.svelte';
+	import ChevronDown from '@inqling/svelte-icons/solid/chevron-down.svelte';
+	import ChevronRight from '@inqling/svelte-icons/solid/chevron-right.svelte';
 
 	import type ItemStock from '$lib/ItemStock';
 	import type { Purchase } from '$lib/Purchase';
@@ -49,7 +49,7 @@
 <!-- NOTE: The values {itemFilter} and {purchaseFilter} are supposed to be lowercase, enforced by the `lowercase` property in their input field's css. 
 There is no manual conversion to lowercase for the filters (but there is for the values that are being checked) -->
 
-{#if isAuthorized == true}
+{#if isAuthorized === true}
 	<div class="flex flex-col xl:flex-row gap-10 justify-center m-4">
 		<div
 			class="w-11/12 xl:w-1/3 h-max self-center xl:self-auto mt-10 p-4 border-2 border-slate-500 dark:border-slate-400 rounded-lg"
@@ -65,7 +65,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 			<div class="grid grid-cols-2 gap-y-2 text-slate-900 dark:text-slate-100">
 				{#if items !== undefined && items !== null}
 					{#each items as item}
-						{#if itemFilter.length == 0 || (itemFilter.length > 0 && item.name
+						{#if itemFilter.length === 0 || (itemFilter.length > 0 && item.name
 									.toLowerCase()
 									.includes(itemFilter))}
 							<div class="hover:bg-gray-300 dark:hover:bg-zinc-600">
@@ -100,16 +100,16 @@ There is no manual conversion to lowercase for the filters (but there is for the
 				<div>
 					<button on:click={() => (showNeedsContacting = !showNeedsContacting)}>
 						{#if showNeedsContacting}
-							<CheveronDown class="h-5" />
+							<ChevronDown class="h-5" />
 						{:else}
-							<CheveronRight class="h-5" />
+							<ChevronRight class="h-5" />
 						{/if}
 						Needs Contacting:
 					</button>
 
 					{#if showNeedsContacting && needsContacting !== undefined && needsContacting !== null}
 						{#each needsContacting as purchase}
-							{#if purchaseFilter.length == 0 || (purchaseFilter.length > 0 && (purchase.name
+							{#if purchaseFilter.length === 0 || (purchaseFilter.length > 0 && (purchase.name
 										.toLowerCase()
 										.includes(purchaseFilter) || purchase.email
 											.toLowerCase()
@@ -127,16 +127,16 @@ There is no manual conversion to lowercase for the filters (but there is for the
 				<div>
 					<button on:click={() => (showContacted = !showContacted)}>
 						{#if showContacted}
-							<CheveronDown class="h-5" />
+							<ChevronDown class="h-5" />
 						{:else}
-							<CheveronRight class="h-5" />
+							<ChevronRight class="h-5" />
 						{/if}
 						Contacted:
 					</button>
 
 					{#if showContacted && contacted !== undefined && contacted !== null}
 						{#each contacted as purchase}
-							{#if purchaseFilter.length == 0 || (purchaseFilter.length > 0 && (purchase.name
+							{#if purchaseFilter.length === 0 || (purchaseFilter.length > 0 && (purchase.name
 										.toLowerCase()
 										.includes(purchaseFilter) || purchase.email
 											.toLowerCase()
@@ -154,16 +154,16 @@ There is no manual conversion to lowercase for the filters (but there is for the
 				<div>
 					<button on:click={() => (showPickupArranged = !showPickupArranged)}>
 						{#if showPickupArranged}
-							<CheveronDown class="h-5" />
+							<ChevronDown class="h-5" />
 						{:else}
-							<CheveronRight class="h-5" />
+							<ChevronRight class="h-5" />
 						{/if}
 						Pickup Arranged:
 					</button>
 
 					{#if showPickupArranged && pickupArranged !== undefined && pickupArranged !== null}
 						{#each pickupArranged as purchase}
-							{#if purchaseFilter.length == 0 || (purchaseFilter.length > 0 && (purchase.name
+							{#if purchaseFilter.length === 0 || (purchaseFilter.length > 0 && (purchase.name
 										.toLowerCase()
 										.includes(purchaseFilter) || purchase.email
 											.toLowerCase()
@@ -180,16 +180,16 @@ There is no manual conversion to lowercase for the filters (but there is for the
 				<div>
 					<button on:click={() => (showCompleted = !showCompleted)}>
 						{#if showCompleted}
-							<CheveronDown class="h-5" />
+							<ChevronDown class="h-5" />
 						{:else}
-							<CheveronRight class="h-5" />
+							<ChevronRight class="h-5" />
 						{/if}
 						Completed:
 					</button>
 
 					{#if showCompleted && completed !== undefined && completed !== null}
 						{#each completed as purchase}
-							{#if purchaseFilter.length == 0 || (purchaseFilter.length > 0 && (purchase.name
+							{#if purchaseFilter.length === 0 || (purchaseFilter.length > 0 && (purchase.name
 										.toLowerCase()
 										.includes(purchaseFilter) || purchase.email
 											.toLowerCase()
@@ -206,6 +206,6 @@ There is no manual conversion to lowercase for the filters (but there is for the
 			</div>
 		</div>
 	</div>
-{:else if isAuthorized == false}
+{:else if isAuthorized === false}
 	<AuthWall />
 {/if}

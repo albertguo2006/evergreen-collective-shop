@@ -46,10 +46,8 @@
 			return false;
 		}
 
-		if (!validateNaturalNumber(cartItem.quantity)) {
-			return false;
-		}
-		return true;
+		return validateNaturalNumber(cartItem.quantity);
+
 	}
 
 	function allPurchasesValid(cart: CartItem[]): boolean {

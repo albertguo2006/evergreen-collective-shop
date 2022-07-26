@@ -130,7 +130,7 @@
 					>
 				{/if}
 
-				<div class="my-5 border-t-2 border-gray-500 dark:border-gray-300" />
+				<div class="my-5 border-t-2 border-gray-500 dark:border-gray-300"></div>
 
 				<div>
 					<h2 class="font-semibold mb-2 text-slate-900 dark:text-slate-50">Description</h2>

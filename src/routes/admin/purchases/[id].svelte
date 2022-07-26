@@ -20,7 +20,7 @@
 
 	let isAuthorized: boolean | undefined;
 	let originalPurchase: Purchase | undefined;
-	let productNames: { objectId: ObjectId; name: String }[] = [];
+	let productNames: { objectId: ObjectId; name: string }[] = [];
 
 	let editedName: string | undefined;
 	let editedEmail: string | undefined;
@@ -101,7 +101,6 @@
 			const editedItem = edited[i];
 			if (originalItem.productId !== editedItem.productId) return true;
 			else if (originalItem.quantity !== editedItem.quantity) return true;
-			return false;
 		}
 		return true;
 	}
@@ -215,7 +214,7 @@
 	<title>Manage {originalPurchase?.name ?? 'unknown'}'s purchase</title>
 </svelte:head>
 
-{#if isAuthorized == true}
+{#if isAuthorized === true}
 	{#if originalPurchase !== undefined && editedName !== undefined && editedEmail !== undefined && editedProducts !== undefined && editedStatus !== undefined}
 		<div class="flex flex-col 2xl:flex-row gap-10 justify-center mx-4 mt-10">
 			<div
@@ -224,7 +223,7 @@
 				<div class="grid grid-cols-2 mt-5 border-2 p-4 border-slate-500 dark:border-slate-400 rounded-lg text-slate-900 dark:text-slate-50">
 					<div class="m-2 space-y-2">
 						<!-- `&nbsp` is the code for a whitespace character, and `&emsp` is the code for 4 spaces -->
-						<h2>Interal Object id:</h2>
+						<h2>Internal Object id:</h2>
 						<h2>
 							Purchaser Name{#if stringCheck(originalPurchase.name, editedName)}
 								&nbsp(was {originalPurchase.name}){/if}:
@@ -310,6 +309,6 @@
 			</div>
 		</div>
 	{/if}
-{:else if isAuthorized == false}
+{:else if isAuthorized === false}
 	<AuthWall />
 {/if}

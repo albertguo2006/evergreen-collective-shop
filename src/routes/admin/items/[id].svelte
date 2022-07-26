@@ -123,7 +123,7 @@
 	<title>Manage {originalItem?.name ?? 'item'}</title>
 </svelte:head>
 
-{#if isAuthorized == true}
+{#if isAuthorized === true}
 	{#if originalItem !== undefined && editedPrice !== undefined && editedUnlimited !== undefined && editedStock !== undefined && editedSold !== undefined}
 		<div class="flex flex-col 2xl:flex-row gap-10 justify-center mx-4 mt-10">
 			<div class="flex flex-col w-11/12 2xl:w-1/3 self-center 2xl:self-auto p-4">
@@ -139,7 +139,7 @@
 				<div class="grid grid-cols-2 mt-5 border-2 p-4 border-slate-500 dark:border-slate-400 rounded-lg text-slate-900 dark:text-slate-50">
 					<div class="m-2 space-y-2">
 						<!-- `&nbsp` is the code for a whitespace character -->
-						<h2>Interal Object id:</h2>
+						<h2>Internal Object id:</h2>
 						<h2>
 							Item Name{#if stringCheck(originalItem.name, editedName)}
 								&nbsp(was {originalItem.name}){/if}:
@@ -194,6 +194,6 @@
 			</div>
 		</div>
 	{/if}
-{:else if isAuthorized == false}
+{:else if isAuthorized === false}
 	<AuthWall />
 {/if}

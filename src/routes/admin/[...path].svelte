@@ -17,8 +17,8 @@ import { onMount } from 'svelte';
 	});
 </script>
 
-{#if isAuthorized == true}
+{#if isAuthorized === true}
 	<PageNotFound />
-{:else if isAuthorized == false}
+{:else if isAuthorized === false}
 	<AuthWall />
 {/if}
