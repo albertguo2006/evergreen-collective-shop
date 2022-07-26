@@ -5,7 +5,7 @@ const objectIdString = "62d1d58fbd0546308bcd212a";
 </script>
 
 <ItemShowcase objectId={objectIdString}>
-	<div class="text-slate-900 dark:text-slate-50">
+	<div class="text-slate-900 dark:text-slate-50 text-lg">
 		<h2>
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
 			labore et dolore magna aliqua.

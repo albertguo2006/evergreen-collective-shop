@@ -5,16 +5,11 @@
 </script>
 
 <ItemShowcase objectId={objectIdString}>
-	<div class="text-slate-900 dark:text-slate-50">
+	<div class="text-slate-900 dark:text-slate-50 text-lg">
+		<h2>Material: 100% cotton</h2>
+		<h2>Designed by Evergreen collective, handmade with pattern ironed on</h2>
 		<h2>
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-			labore et dolore magna aliqua.
+			ECO-FRIENDLY: Reusable and sturdy bag, perfect for shopping and books 28.3 x 23.8 x 5 cm
 		</h2>
-		<h2>
-			Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-			commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-			dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-		</h2>
-		<h2 class="font-bold">sunt in culpa qui officia deserunt mollit anim id est laborum.</h2>
 	</div>
 </ItemShowcase>
