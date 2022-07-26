@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type ItemStock from '$lib/ItemStock';
-	import { onMount } from 'svelte';
+	import type ItemStock from "$lib/ItemStock";
+	import { onMount } from "svelte";
 
 	let itemsToSell: ItemStock[] | undefined;
 
 	onMount(async () => {
-		const itemRes = await fetch('/api/public/items', {
-			method: 'GET',
+		const itemRes = await fetch("/api/public/items", {
+			method: "GET",
 			headers: {
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			}
 		});
 
@@ -30,13 +30,19 @@
 </h1>
 
 <div class="flex flex-col py-10 items-center">
-	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 w-4/5">
+	<div
+		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 w-4/5"
+	>
 		{#if itemsToSell !== undefined}
 			{#each itemsToSell as item}
 				<a href="/item/{item._id}" class="w-11/12 h-11/12 hover:w-full hover:h-full duration-300">
-					<div class="p-6 mb-6 rounded-2xl space-y-4 hover:bg-gray-300 dark:hover:bg-gray-600 duration-75">
+					<div
+						class="p-6 mb-6 rounded-2xl space-y-4 hover:bg-gray-300 dark:hover:bg-gray-600 duration-75"
+					>
 						<img alt="Picture of {item.name}" src="/images/{item._id}.jpeg" class="h-48 mx-auto" />
-						<h2 class="text-stone-900 dark:text-stone-50 font-bold capitalize text-center">{item.name}</h2>
+						<h2 class="text-stone-900 dark:text-stone-50 font-bold capitalize text-center">
+							{item.name}
+						</h2>
 					</div>
 				</a>
 			{/each}

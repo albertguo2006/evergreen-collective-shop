@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { cart, CartItem } from '$lib/cartItems';
-	import type ItemStock from '$lib/ItemStock';
-	import Minus from '@inqling/svelte-icons/solid/minus.svelte';
-	import { onMount } from 'svelte';
-	import Plus from '@inqling/svelte-icons/solid/plus.svelte';
+	import { cart, CartItem } from "$lib/cartItems";
+	import type ItemStock from "$lib/ItemStock";
+	import Minus from "@inqling/svelte-icons/solid/minus.svelte";
+	import { onMount } from "svelte";
+	import Plus from "@inqling/svelte-icons/solid/plus.svelte";
 
 	export let objectId: string;
 
 	let item: ItemStock | undefined;
-	let quantityString = '1';
+	let quantityString = "1";
 	let itemAddedToCart: boolean | undefined;
 
 	onMount(async () => {
 		const itemRes = await fetch(`/api/public/items/${objectId}`, {
-			method: 'GET',
+			method: "GET",
 			headers: {
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			}
 		});
 		const json = await itemRes.json();
@@ -25,22 +25,22 @@
 	function validateStringAsNaturalNumber(toValidate: any): boolean {
 		const potentialNumber = Number(toValidate);
 		return (
-			typeof potentialNumber == 'number' &&
+			typeof potentialNumber == "number" &&
 			potentialNumber > 0 && // Don't allow negative numbers
-			!potentialNumber.toString().includes('.') // Don't allow decimals
+			!potentialNumber.toString().includes(".") // Don't allow decimals
 		);
 	}
 
 	function incrementQuantity() {
 		const potentialNumber = Number(quantityString);
-		if (typeof potentialNumber == 'number') {
+		if (typeof potentialNumber == "number") {
 			quantityString = (potentialNumber + 1).toString();
 		}
 	}
 
 	function decrementQuantity() {
 		const potentialNumber = Number(quantityString);
-		if (typeof potentialNumber == 'number') {
+		if (typeof potentialNumber == "number") {
 			quantityString = (potentialNumber - 1).toString();
 		}
 	}
@@ -61,7 +61,7 @@
 				return cartItems;
 			});
 			itemAddedToCart = true;
-			window.location.href = '/cart';
+			window.location.href = "/cart";
 		} else {
 			itemAddedToCart = undefined; // Reset state for flicker effect
 			itemAddedToCart = false;
@@ -70,7 +70,7 @@
 </script>
 
 <svelte:head>
-	<title>Item: {item?.name ?? 'unknown'}</title>
+	<title>Item: {item?.name ?? "unknown"}</title>
 </svelte:head>
 
 <div class="flex flex-col py-8 px-5">
@@ -88,14 +88,16 @@
 				<div class="grid grid-cols-2">
 					<h2 class="text-xl capitalize text-slate-900 dark:text-slate-50">{item.name}</h2>
 					<h2 class="place-self-end text-gray-500 dark:text-gray-300 text-lg font-extrabold">
-						{(item.currentPriceCents / 100).toLocaleString('en-CA', {
-							style: 'currency',
-							currency: 'CAD'
+						{(item.currentPriceCents / 100).toLocaleString("en-CA", {
+							style: "currency",
+							currency: "CAD"
 						})}
 					</h2>
 				</div>
 
-				<div class="flex hover:border-2 border-gray-600 dark:border-gray-300 duration-75 rounded-lg mt-12">
+				<div
+					class="flex hover:border-2 border-gray-600 dark:border-gray-300 duration-75 rounded-lg mt-12"
+				>
 					<button type="button" class="flex-initial w-1/6 rounded-md" on:click={decrementQuantity}
 						><Minus class="h-8 dark:text-slate-50" /></button
 					>
@@ -130,13 +132,13 @@
 					>
 				{/if}
 
-				<div class="my-5 border-t-2 border-gray-500 dark:border-gray-300"></div>
+				<div class="my-5 border-t-2 border-gray-500 dark:border-gray-300" />
 
 				<div>
 					<h2 class="font-semibold mb-2 text-slate-900 dark:text-slate-50">Description</h2>
 					<slot>
 						<em>Description not found :(</em>
-						</slot>
+					</slot>
 				</div>
 			</div>
 		</div>

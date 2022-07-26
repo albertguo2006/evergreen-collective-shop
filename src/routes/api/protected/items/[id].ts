@@ -25,7 +25,7 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
 
     try {
         const objectId = new ObjectId(params["id"]);
-        await collection.findOneAndUpdate({_id: objectId}, {$set: json});
+        await collection.findOneAndUpdate({ _id: objectId }, { $set: json });
 
         return {
             status: 200,

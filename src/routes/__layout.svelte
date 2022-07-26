@@ -1,20 +1,20 @@
 <script lang="ts">
-	import '../app.css';
-	import ChatAlt2 from '@inqling/svelte-icons/outline/chat-alt-2.svelte';
-	import Facebook from '@inqling/svelte-icons/brand/facebook.svelte';
-	import GitHub from '@inqling/svelte-icons/brand/github.svelte';
-	import Instagram from '@inqling/svelte-icons/brand/instagram.svelte';
-	import Mail from '@inqling/svelte-icons/outline/mail.svelte';
-	import Moon from '@inqling/svelte-icons/outline/moon.svelte';
-	import ShoppingCart from '@inqling/svelte-icons/outline/shopping-cart.svelte';
-	import Sun from '@inqling/svelte-icons/outline/sun.svelte';
-	import TikTok from '@inqling/svelte-icons/brand/tiktok.svelte';
-	import Twitter from '@inqling/svelte-icons/brand/twitter.svelte';
+	import "../app.css";
+	import ChatAlt2 from "@inqling/svelte-icons/outline/chat-alt-2.svelte";
+	import Facebook from "@inqling/svelte-icons/brand/facebook.svelte";
+	import GitHub from "@inqling/svelte-icons/brand/github.svelte";
+	import Instagram from "@inqling/svelte-icons/brand/instagram.svelte";
+	import Mail from "@inqling/svelte-icons/outline/mail.svelte";
+	import Moon from "@inqling/svelte-icons/outline/moon.svelte";
+	import ShoppingCart from "@inqling/svelte-icons/outline/shopping-cart.svelte";
+	import Sun from "@inqling/svelte-icons/outline/sun.svelte";
+	import TikTok from "@inqling/svelte-icons/brand/tiktok.svelte";
+	import Twitter from "@inqling/svelte-icons/brand/twitter.svelte";
 
-	import logo from '$lib/assets/logo.png';
-	import { theme } from '$lib/theme';
+	import logo from "$lib/assets/logo.png";
+	import { theme } from "$lib/theme";
 
-	$: themeCSS = $theme === 'light' ? '' : 'dark';
+	$: themeCSS = $theme === "light" ? "" : "dark";
 </script>
 
 <div class={themeCSS}>
@@ -40,10 +40,10 @@
 			</a>
 
 			<button
-				on:click={() => theme.update(() => ($theme === 'light' ? 'dark' : 'light'))}
+				on:click={() => theme.update(() => ($theme === "light" ? "dark" : "light"))}
 				class="justify-self-end col-start-11"
 			>
-				{#if $theme === 'light'}
+				{#if $theme === "light"}
 					<Sun class="h-8 hover:text-indigo-400" />
 				{:else}
 					<Moon class="h-8 hover:text-indigo-400" />

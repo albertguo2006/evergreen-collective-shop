@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { cart, CartItem } from '$lib/cartItems';
-	import { fade, fly } from 'svelte/transition';
-	import { flip } from 'svelte/animate';
-	import type ItemStock from '$lib/ItemStock';
-	import { onMount } from 'svelte';
-	import XCircle from '@inqling/svelte-icons/outline/x-circle.svelte';
+	import { cart, CartItem } from "$lib/cartItems";
+	import { fade, fly } from "svelte/transition";
+	import { flip } from "svelte/animate";
+	import type ItemStock from "$lib/ItemStock";
+	import { onMount } from "svelte";
+	import XCircle from "@inqling/svelte-icons/outline/x-circle.svelte";
 
 	let availableItems: ItemStock[] | undefined;
 
@@ -14,10 +14,10 @@
 	onMount(async () => obtainAvailableItems());
 
 	async function obtainAvailableItems() {
-		const itemRes = await fetch('/api/public/items', {
-			method: 'GET',
+		const itemRes = await fetch("/api/public/items", {
+			method: "GET",
 			headers: {
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			}
 		});
 		const json = await itemRes.json();
@@ -29,7 +29,7 @@
 	}
 
 	function validateNaturalNumber(n: number): boolean {
-		return n > 0 && !n.toString().includes('.');
+		return n > 0 && !n.toString().includes(".");
 	}
 
 	function isPurchaseValid(cartItem: CartItem): boolean {
@@ -47,7 +47,6 @@
 		}
 
 		return validateNaturalNumber(cartItem.quantity);
-
 	}
 
 	function allPurchasesValid(cart: CartItem[]): boolean {
@@ -63,11 +62,11 @@
 		return (
 			//Equiv to stringCheck()
 			potentialEmail !== undefined &&
-			potentialEmail !== '' &&
+			potentialEmail !== "" &&
 			// Ensure it's an email address
-			potentialEmail.includes('@') &&
-			potentialEmail.includes('.') &&
-			potentialEmail.slice(-1) !== '.'
+			potentialEmail.includes("@") &&
+			potentialEmail.includes(".") &&
+			potentialEmail.slice(-1) !== "."
 		);
 	}
 </script>
@@ -121,10 +120,10 @@
 
 										<h3 class="text-stone-900 dark:text-stone-50 font-semibold">
 											{((getRef(cartItem)?.currentPriceCents ?? NaN) / 100).toLocaleString(
-												'en-CA',
+												"en-CA",
 												{
-													style: 'currency',
-													currency: 'CAD'
+													style: "currency",
+													currency: "CAD"
 												}
 											)}
 										</h3>
@@ -193,9 +192,9 @@
 										{(
 											(cartItem.quantity * (getRef(cartItem)?.currentPriceCents ?? NaN)) /
 											100
-										).toLocaleString('en-CA', {
-											style: 'currency',
-											currency: 'CAD'
+										).toLocaleString("en-CA", {
+											style: "currency",
+											currency: "CAD"
 										})}
 									</h2>
 								{:else}
@@ -212,9 +211,9 @@
 									$cart.reduce((subTotal, item) => {
 										return subTotal + item.quantity * (getRef(item)?.currentPriceCents ?? NaN);
 									}, 0) / 100
-								).toLocaleString('en-CA', {
-									style: 'currency',
-									currency: 'CAD'
+								).toLocaleString("en-CA", {
+									style: "currency",
+									currency: "CAD"
 								})}
 							</h2>
 						{/if}

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import '../app.css';
-	import { theme } from '$lib/theme';
+	import "../app.css";
+	import { theme } from "$lib/theme";
 
-	$: themeCSS = $theme === 'light' ? '' : 'dark';
+	$: themeCSS = $theme === "light" ? "" : "dark";
 </script>
 
 <div class={themeCSS}>

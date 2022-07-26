@@ -1,11 +1,11 @@
 <script lang="ts">
-	import AuthWall from '$lib/AuthWall.svelte';
-	import ChevronDown from '@inqling/svelte-icons/solid/chevron-down.svelte';
-	import ChevronRight from '@inqling/svelte-icons/solid/chevron-right.svelte';
+	import AuthWall from "$lib/AuthWall.svelte";
+	import ChevronDown from "@inqling/svelte-icons/solid/chevron-down.svelte";
+	import ChevronRight from "@inqling/svelte-icons/solid/chevron-right.svelte";
 
-	import type ItemStock from '$lib/ItemStock';
-	import type { Purchase } from '$lib/Purchase';
-	import { onMount } from 'svelte';
+	import type ItemStock from "$lib/ItemStock";
+	import type { Purchase } from "$lib/Purchase";
+	import { onMount } from "svelte";
 
 	// While the following values could be obtained by `export const`, it is more consistent to actually work if we use onMount()
 	let isAuthorized: boolean | undefined;
@@ -20,14 +20,14 @@
 	let showPickupArranged = true;
 	let showCompleted = true;
 
-	let itemFilter = '';
-	let purchaseFilter = '';
+	let itemFilter = "";
+	let purchaseFilter = "";
 
 	onMount(async () => {
-		const res = await fetch('/api/protected/dash', {
-			method: 'GET',
+		const res = await fetch("/api/protected/dash", {
+			method: "GET",
 			headers: {
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			}
 		});
 		const json = await res.json();
@@ -54,7 +54,11 @@ There is no manual conversion to lowercase for the filters (but there is for the
 		<div
 			class="w-11/12 xl:w-1/3 h-max self-center xl:self-auto mt-10 p-4 border-2 border-slate-500 dark:border-slate-400 rounded-lg"
 		>
-			<h2 class="mb-4 border-b-2 border-slate-500 dark:border-slate-400 text-slate-900 dark:text-slate-50">Number of items sold:</h2>
+			<h2
+				class="mb-4 border-b-2 border-slate-500 dark:border-slate-400 text-slate-900 dark:text-slate-50"
+			>
+				Number of items sold:
+			</h2>
 			<input
 				type="text"
 				placeholder="Search filter"
@@ -88,7 +92,11 @@ There is no manual conversion to lowercase for the filters (but there is for the
 		<div
 			class="w-11/12 xl:w-2/3 h-max self-center xl:self-auto xl:mt-24 p-3 border-[3px] border-slate-500 dark:border-slate-400 rounded-lg"
 		>
-			<h2 class="mb-4 border-b-2 border-slate-500 dark:border-slate-400 text-slate-900 dark:text-slate-50">Order status:</h2>
+			<h2
+				class="mb-4 border-b-2 border-slate-500 dark:border-slate-400 text-slate-900 dark:text-slate-50"
+			>
+				Order status:
+			</h2>
 			<input
 				type="text"
 				placeholder="Search filter"
@@ -115,7 +123,10 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 dark:hover:bg-zinc-600 block">
+									<a
+										href="/admin/purchases/{purchase._id}"
+										class="hover:bg-gray-300 dark:hover:bg-zinc-600 block"
+									>
 										{purchase.email}
 									</a>
 								</div>
@@ -142,7 +153,10 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 dark:hover:bg-zinc-600 block">
+									<a
+										href="/admin/purchases/{purchase._id}"
+										class="hover:bg-gray-300 dark:hover:bg-zinc-600 block"
+									>
 										{purchase.email}
 									</a>
 								</div>
@@ -169,7 +183,10 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 dark:hover:bg-zinc-600 block">
+									<a
+										href="/admin/purchases/{purchase._id}"
+										class="hover:bg-gray-300 dark:hover:bg-zinc-600 block"
+									>
 										{purchase.email}
 									</a>
 								</div>
@@ -195,7 +212,10 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 dark:hover:bg-zinc-600 block">
+									<a
+										href="/admin/purchases/{purchase._id}"
+										class="hover:bg-gray-300 dark:hover:bg-zinc-600 block"
+									>
 										{purchase.email}
 									</a>
 								</div>
