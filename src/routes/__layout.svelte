@@ -15,8 +15,9 @@
 	$: themeCSS = $theme === 'light' ? '' : 'dark';
 </script>
 
+<div class={themeCSS}>
 <!-- We need to include the body tag so that we can specify that it is flex. This allows the footer to always be placed to the bottom of the page -->
-<div class="flex flex-col min-h-screen bg-slate-200 {themeCSS}">
+<div class="flex flex-col min-h-screen bg-slate-200">
 	<nav
 		class="grid grid-rows-1 grid-cols-8 place-items-center py-4 bg-slate-50 text-zinc-900 font-bold"
 	>
@@ -80,4 +81,5 @@
 			<p class="text-slate-50">Copyright &copy; Evergreen Collective Foundation 2022; AGPLv3</p>
 		</div>
 	</footer>
+</div>
 </div>
