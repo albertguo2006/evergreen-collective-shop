@@ -9,11 +9,14 @@
 	import TikTok from '@inqling/svelte-icons/brand/tiktok.svelte';
 	import Twitter from '@inqling/svelte-icons/brand/twitter.svelte';
 
-	import logo from "$lib/assets/logo.png";
+	import logo from '$lib/assets/logo.png';
+	import { theme } from '$lib/theme';
+
+	$: themeCSS = $theme === 'light' ? '' : 'dark';
 </script>
 
 <!-- We need to include the body tag so that we can specify that it is flex. This allows the footer to always be placed to the bottom of the page -->
-<div class="flex flex-col min-h-screen bg-slate-200">
+<div class="flex flex-col min-h-screen bg-slate-200 {themeCSS}">
 	<nav
 		class="grid grid-rows-1 grid-cols-8 place-items-center py-4 bg-slate-50 text-zinc-900 font-bold"
 	>
