@@ -2,12 +2,10 @@ import clientPromise from "$lib/mongoDB";
 import type { ParamMatcher, RequestHandler } from "@sveltejs/kit";
 import { ObjectId } from "mongodb";
 
-export const match: ParamMatcher = (param) => {
-    if (param.length == 0) return false;
-    return true;
-}
+export const match: ParamMatcher = (param) => param.length != 0;
 
-export const get: RequestHandler = async ({ params }) => {
+
+export const GET: RequestHandler = async ({ params }) => {
 
     const dbConnection = await clientPromise;
 

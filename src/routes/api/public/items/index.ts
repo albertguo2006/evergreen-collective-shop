@@ -4,7 +4,7 @@ import type { RequestHandler } from "@sveltejs/kit";
 
 dotenv.config();
 
-export const get: RequestHandler = async () => {
+export const GET: RequestHandler = async () => {
 
     const dbConnection = await clientPromise;
     const db = dbConnection.db(process.env["DB_NAME"]);

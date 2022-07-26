@@ -7,7 +7,7 @@ import { Purchase, PurchaseStatus } from "$lib/Purchase";
 
 dotenv.config();
 
-export const get: RequestHandler = async ({ request }) => {
+export const GET: RequestHandler = async ({ request }) => {
 
     const requestAuthCode = isAuthorized(request.headers.get("cookie")?.split(";"));
 
@@ -42,6 +42,4 @@ export const get: RequestHandler = async ({ request }) => {
             completed: completed
         }
     }
-
-
 }

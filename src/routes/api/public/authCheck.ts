@@ -7,7 +7,7 @@ sessions.subscribe(value => { //Hmm, this could cause a memory leak?
     sessionIds = value;
 });
 
-export const get: RequestHandler = async ({ request }) => {
+export const GET: RequestHandler = async ({ request }) => {
     const cookies = request.headers.get("cookie")?.split(";");
     const responseCode = isAuthorized(cookies);
 

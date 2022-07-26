@@ -5,7 +5,7 @@ import { timingSafeEqual } from "crypto";
 
 dotenv.config();
 
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 
     const { username, password } = await request.json();
 
