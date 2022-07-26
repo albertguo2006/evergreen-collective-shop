@@ -221,7 +221,7 @@
 			<div
 				class="flex flex-col w-11/12 self-center 2xl:self-auto text-xs md:text-xl 2xl:text-2xl p-4 justify-center min-w-max"
 			>
-				<div class="grid grid-cols-2 mt-5 border-2 p-4 border-slate-500 rounded-lg">
+				<div class="grid grid-cols-2 mt-5 border-2 p-4 border-slate-500 dark:border-slate-400 rounded-lg text-slate-900 dark:text-slate-50">
 					<div class="m-2 space-y-2">
 						<!-- `&nbsp` is the code for a whitespace character, and `&emsp` is the code for 4 spaces -->
 						<h2>Interal Object id:</h2>
@@ -254,10 +254,10 @@
 
 					<div class="m-2 space-y-2">
 						<h2>{originalPurchase._id}</h2>
-						<h2><input type="text" bind:value={editedName} class="bg-gray-300" /></h2>
-						<h2><input type="email" bind:value={editedEmail} class="bg-gray-300" /></h2>
+						<h2><input type="text" bind:value={editedName} class="bg-gray-300 dark:bg-gray-500" /></h2>
+						<h2><input type="email" bind:value={editedEmail} class="bg-gray-300 dark:bg-gray-500" /></h2>
 						<h2>
-							<select bind:value={editedStatus}>
+							<select bind:value={editedStatus} class="bg-gray-300 dark:bg-gray-500">
 								<option value={PurchaseStatus.NeedsContacting}>Needs Contacting</option>
 								<option value={PurchaseStatus.Contacted}>Contacted</option>
 								<option value={PurchaseStatus.PickupArranged}>Pickup Arranged</option>
@@ -271,7 +271,7 @@
 						{#each editedProducts as product}
 							<br />
 							<h2>
-								<select bind:value={product.productId}>
+								<select bind:value={product.productId} class="bg-gray-300 dark:bg-gray-500">
 									<!-- Ensure that the first value presented is always the default value -->
 									<option value={product.productId}
 										>{productNames.find((object) => object.objectId === product.productId)
@@ -287,9 +287,9 @@
 								</select>
 							</h2>
 							<h2>
-								<input type="number" bind:value={product.priceCentsAtSale} class="bg-gray-300" />
+								<input type="number" bind:value={product.priceCentsAtSale} class="bg-gray-300 dark:bg-gray-500" />
 							</h2>
-							<h2><input type="number" bind:value={product.quantity} class="bg-gray-300" /></h2>
+							<h2><input type="number" bind:value={product.quantity} class="bg-gray-300 dark:bg-gray-500" /></h2>
 						{/each}
 					</div>
 				</div>
@@ -303,9 +303,9 @@
 				{/if}
 				
 				{#if successfullyUpdated === true}
-					<p class="text-emerald-700">Updated Successful</p>
+					<p class="text-emerald-700 dark:text-green-500">Updated Successful</p>
 				{:else if successfullyUpdated === false}
-					<p class="text-red-600">Update Failed</p>
+					<p class="text-red-600 dark:text-red-500">Update Failed</p>
 				{/if}
 			</div>
 		</div>

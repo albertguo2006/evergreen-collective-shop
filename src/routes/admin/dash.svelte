@@ -52,23 +52,23 @@ There is no manual conversion to lowercase for the filters (but there is for the
 {#if isAuthorized == true}
 	<div class="flex flex-col xl:flex-row gap-10 justify-center m-4">
 		<div
-			class="w-11/12 xl:w-1/3 h-max self-center xl:self-auto mt-10 p-4 border-2 border-slate-500 rounded-lg"
+			class="w-11/12 xl:w-1/3 h-max self-center xl:self-auto mt-10 p-4 border-2 border-slate-500 dark:border-slate-400 rounded-lg"
 		>
-			<h2 class="mb-4 border-b-2 border-slate-500">Number of items sold:</h2>
+			<h2 class="mb-4 border-b-2 border-slate-500 dark:border-slate-400 text-slate-900 dark:text-slate-50">Number of items sold:</h2>
 			<input
 				type="text"
 				placeholder="Search filter"
-				class="w-full h-8 p-2 mb-2 border-2 border-slate-500 rounded-lg lowercase"
+				class="w-full h-8 p-2 mb-2 border-2 border-slate-500 dark:border-slate-400 rounded-lg lowercase"
 				bind:value={itemFilter}
 			/>
 
-			<div class="grid grid-cols-2 gap-y-2">
+			<div class="grid grid-cols-2 gap-y-2 text-slate-900 dark:text-slate-100">
 				{#if items !== undefined && items !== null}
 					{#each items as item}
 						{#if itemFilter.length == 0 || (itemFilter.length > 0 && item.name
 									.toLowerCase()
 									.includes(itemFilter))}
-							<div class="hover:bg-gray-300">
+							<div class="hover:bg-gray-300 dark:hover:bg-zinc-600">
 								<a href="/admin/items/{item._id}" class="block">
 									{item.name}:
 								</a>
@@ -86,17 +86,17 @@ There is no manual conversion to lowercase for the filters (but there is for the
 			</div>
 		</div>
 		<div
-			class="w-11/12 xl:w-2/3 h-max self-center xl:self-auto xl:mt-24 p-3 border-[3px] border-slate-500 rounded-lg"
+			class="w-11/12 xl:w-2/3 h-max self-center xl:self-auto xl:mt-24 p-3 border-[3px] border-slate-500 dark:border-slate-400 rounded-lg"
 		>
-			<h2 class="mb-4 border-b-2 border-slate-500">Order status:</h2>
+			<h2 class="mb-4 border-b-2 border-slate-500 dark:border-slate-400 text-slate-900 dark:text-slate-50">Order status:</h2>
 			<input
 				type="text"
 				placeholder="Search filter"
-				class="w-full h-8 p-2 mb-2 border-2 border-slate-500 rounded-lg lowercase"
+				class="w-full h-8 p-2 mb-2 border-2 border-slate-500 dark:border-slate-400 rounded-lg lowercase"
 				bind:value={purchaseFilter}
 			/>
 
-			<div class="grid grid-cols-1 xl:grid-cols-2 gap-2">
+			<div class="grid grid-cols-1 xl:grid-cols-2 gap-2 text-slate-900 dark:text-slate-100">
 				<div>
 					<button on:click={() => (showNeedsContacting = !showNeedsContacting)}>
 						{#if showNeedsContacting}
@@ -115,7 +115,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 block">
+									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 dark:hover:bg-zinc-600 block">
 										{purchase.email}
 									</a>
 								</div>
@@ -142,7 +142,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 block">
+									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 dark:hover:bg-zinc-600 block">
 										{purchase.email}
 									</a>
 								</div>
@@ -169,7 +169,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 block">
+									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 dark:hover:bg-zinc-600 block">
 										{purchase.email}
 									</a>
 								</div>
@@ -195,7 +195,7 @@ There is no manual conversion to lowercase for the filters (but there is for the
 											.toLowerCase()
 											.includes(purchaseFilter)))}
 								<div>
-									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 block">
+									<a href="/admin/purchases/{purchase._id}" class="hover:bg-gray-300 dark:hover:bg-zinc-600 block">
 										{purchase.email}
 									</a>
 								</div>

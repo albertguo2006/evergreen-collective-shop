@@ -49,29 +49,28 @@
 <!-- Edited from https://tailwindcomponents.com/component/simple-login-page -->
 
 <div class="flex flex-col items-center justify-center mt-20">
-	<div class="flex flex-col bg-whitehadow-mdpx-4sm:px-6md:px-8lg:px-10py-8rounded-3xlw-50max-w-md">
-		<div class="font-medium self-center text-xl sm:text-3xl text-gray-800">Welcome Back</div>
-		<div class="mt-4 self-center text-xl sm:text-sm text-gray-800">
+		<div class="font-medium self-center text-xl sm:text-3xl text-gray-800 dark:text-gray-100">Welcome Back</div>
+		<div class="mt-4 self-center text-xl sm:text-sm text-gray-800 dark:text-gray-100">
 			Much admin work to do today?
 		</div>
 
 		<div class="mt-10">
 			<div class="flex flex-col mb-5">
-				<p class="mb-1 text-s tracking-wide text-gray-600">Username:</p>
+				<p class="mb-1 tracking-wide text-gray-600 dark:text-gray-300">Username:</p>
 				<input
 					type="text"
 					placeholder="Username"
-					class="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 py-2 focus:outline-none focus:border-blue-400"
+					class="text-sm placeholder-gray-500 dark:placeholder-gray-400 pl-10 pr-4 rounded-lg border border-gray-400 dark:border-gray-50 py-2"
 					bind:value={enteredUsername}
 					on:keydown={loginByEnterKey}
 				/>
 			</div>
 			<div class="flex flex-col mb-5">
-				<p class="mb-1 text-s tracking-wide text-gray-600">Password:</p>
+				<p class="mb-1 tracking-wide text-gray-600 dark:text-gray-300">Password:</p>
 				<input
 					type="password"
 					placeholder="Password"
-					class="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 py-2 focus:outline-none focus:border-blue-400"
+					class="text-sm placeholder-gray-500 dark:placeholder-gray-400 pl-10 pr-4 rounded-lg border border-gray-400 dark:border-gray-50 py-2"
 					bind:value={enteredPassword}
 					on:keydown={loginByEnterKey}
 				/>
@@ -80,7 +79,7 @@
 			<div class="flex w-full">
 				<button
 					type="submit"
-					class="flex mt-2 items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-500 hover:bg-blue-600 rounded-2xl py-2 w-full transition duration-150 ease-in"
+					class="flex mt-2 items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-500 hover:bg-blue-600 rounded-lg py-2 w-full transition duration-150 ease-in"
 					on:click={attemptLogin}
 				>
 					<span class="mr-2 uppercase">Sign In</span>
@@ -103,9 +102,8 @@
 	</div>
 	<div class="flex justify-center items-center mt-6">
 		{#if succesfulLogin === true}
-			<p class="text-emerald-700">Login successful, redirecting...</p>
+			<p class="text-emerald-700 dark:text-green-500">Login successful, redirecting...</p>
 		{:else if succesfulLogin === false}
-			<p class="text-red-600">Incorrect username or password, please try again</p>
+			<p class="text-red-600 dark:text-red-500">Incorrect username or password, please try again</p>
 		{/if}
-	</div>
 </div>

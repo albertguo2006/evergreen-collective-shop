@@ -75,7 +75,7 @@
 
 <div class="flex flex-col py-8 px-5">
 	{#if item !== undefined}
-		<h2 class="font-bold capitalize mb-8">{item.name}</h2>
+		<h2 class="font-bold capitalize mb-8 text-slate-900 dark:text-slate-50">{item.name}</h2>
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 			<div>
 				<img
@@ -86,8 +86,8 @@
 			</div>
 			<div class="flex flex-col">
 				<div class="grid grid-cols-2">
-					<h2 class="text-xl capitalize">{item.name}</h2>
-					<h2 class="place-self-end text-gray-500 text-lg font-extrabold">
+					<h2 class="text-xl capitalize text-slate-900 dark:text-slate-50">{item.name}</h2>
+					<h2 class="place-self-end text-gray-500 dark:text-gray-300 text-lg font-extrabold">
 						{(item.currentPriceCents / 100).toLocaleString('en-CA', {
 							style: 'currency',
 							currency: 'CAD'
@@ -95,9 +95,9 @@
 					</h2>
 				</div>
 
-				<div class="flex hover:border-2 border-gray-600 duration-75 rounded-lg mt-12">
+				<div class="flex hover:border-2 border-gray-600 dark:border-gray-300 duration-75 rounded-lg mt-12">
 					<button type="button" class="flex-initial w-1/6 rounded-md" on:click={decrementQuantity}
-						><Minus class="h-8" /></button
+						><Minus class="h-8 dark:text-slate-50" /></button
 					>
 
 					<input
@@ -107,12 +107,12 @@
 					/>
 
 					<button type="button" class="flex-initial w-1/6 rounded-md" on:click={incrementQuantity}
-						><Plus class="h-8" /></button
+						><Plus class="h-8 dark:text-slate-50" /></button
 					>
 				</div>
 
 				{#if itemAddedToCart}
-					<h2 class="text-center text-emerald-500 mt-4">Added to cart!</h2>
+					<h2 class="text-center text-emerald-500 dark:text-emerald-400 mt-4">Added to cart!</h2>
 				{:else if itemAddedToCart === false}
 					<h2 class="text-center text-red-500 mt-4">Failed to add to cart!</h2>
 				{/if}
@@ -130,10 +130,10 @@
 					>
 				{/if}
 
-				<div class="my-5 border-t-2 border-gray-500" />
+				<div class="my-5 border-t-2 border-gray-500 dark:border-gray-300" />
 
 				<div>
-					<h2 class="font-semibold mb-2">Description</h2>
+					<h2 class="font-semibold mb-2 text-slate-900 dark:text-slate-50">Description</h2>
 					<slot>
 						<em>Description not found :(</em>
 						</slot>

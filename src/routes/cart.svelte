@@ -81,7 +81,7 @@
 <div class="flex flex-col md:flex-row py-10">
 	{#if availableItems !== undefined}
 		{#if $cart.length <= 0}
-			<h1 class="text-2xl font-bold text-stone-900 text-center mx-auto">
+			<h1 class="text-2xl font-bold text-stone-900 dark:text-stone-50 text-center mx-auto">
 				Your cart is empty. Explore some items to add to your cart?
 			</h1>
 		{:else}
@@ -92,7 +92,7 @@
 						out:fly|local={{ x: -600, duration: 1000 }}
 						animate:flip={{ duration: 1000 }}
 						href="/item/{cartItem.itemId}"
-						class="flex flex-col md:flex-row gap-x-8 p-4 mx-8 rounded-lg hover:bg-gray-300 duration-300"
+						class="flex flex-col md:flex-row gap-x-8 p-4 mx-8 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 duration-300"
 					>
 						<!-- In all child elements of the anchor tag, ensure to preventDefault on all children than are
 					meant to be clicked (i.e. quantity and remove buttons). -->
@@ -110,18 +110,18 @@
 										cart.update((c) => c.filter((item) => item.itemId !== cartItem.itemId));
 									}}
 								>
-									<XCircle class="h-8 text-slate-700" />
+									<XCircle class="h-8 text-slate-700 dark:text-slate-200" />
 								</button>
 							</div>
 
 							<div class="grid grid-flow-col lg:grid-cols-2 w-3/4 mt-5 md:mt-1">
 								<div class="grid grid-row-1">
 									<div class="mb-8">
-										<h2 class="text-stone-900 font-bold capitalize">
+										<h2 class="text-stone-900 dark:text-stone-50 font-bold capitalize">
 											{getRef(cartItem)?.name}
 										</h2>
 
-										<h3 class="text-stone-900 font-semibold">
+										<h3 class="text-stone-900 dark:text-stone-50 font-semibold">
 											{((getRef(cartItem)?.currentPriceCents ?? NaN) / 100).toLocaleString(
 												'en-CA',
 												{
@@ -142,15 +142,15 @@
 
 									<div class="self-end mb-1">
 										{#if getRef(cartItem)?.isUnlimited !== true && (getRef(cartItem)?.originalStockIfLimited ?? NaN - (getRef(cartItem)?.sold ?? NaN)) < cartItem.quantity}
-											<h2 class="text-red-600">
+											<h2 class="text-red-600 dark:text-red-500">
 												Only {getRef(cartItem)?.originalStockIfLimited ??
 													NaN - (getRef(cartItem)?.sold ?? NaN)} in stock
 											</h2>
 										{:else if getRef(cartItem)?.isUnlimited === true || (getRef(cartItem)?.originalStockIfLimited ?? NaN - (getRef(cartItem)?.sold ?? NaN)) >= cartItem.quantity}
 											{#if validateNaturalNumber(cartItem.quantity)}
-												<h2 class="text-green-600">Available to purchase</h2>
+												<h2 class="text-green-600 dark:text-green-500">Available to purchase</h2>
 											{:else}
-												<h2 class="text-red-600">Invalid quantity</h2>
+												<h2 class="text-red-600 dark:text-red-500">Invalid quantity</h2>
 											{/if}
 										{/if}
 									</div>
@@ -168,7 +168,7 @@
 										cart.update((c) => c.filter((item) => item.itemId !== cartItem.itemId));
 									}}
 								>
-									<XCircle class="h-8 text-slate-700" />
+									<XCircle class="h-8 text-slate-700 dark:text-slate-200" />
 								</button>
 							</div>
 						{:else}
@@ -180,18 +180,18 @@
 			</div>
 			<div class="flex flex-col h-max md:w-5/12 gap-y-4">
 				<div
-					class="flex flex-col bg-gray-300 rounded-lg m-4 p-4 gap-y-4 md:gap-y-8 hover:opacity-75 duration-150"
+					class="flex flex-col hover:bg-gray-300 dark:hover:bg-zinc-600 rounded-lg m-4 p-4 gap-y-4 md:gap-y-8"
 				>
-					<h2 class="font-semibold">Order summary:</h2>
+					<h2 class="font-semibold text-slate-900 dark:text-slate-50">Order summary:</h2>
 					<div class="grid grid-cols-2 gap-y-2">
 						{#each $cart as cartItem (cartItem.itemId)}
 							{#if getRef(cartItem)}
 								<!-- WARNING: The below sign is not the 'x' character. It is the '×' character. -->
 								{#if isPurchaseValid(cartItem)}
-									<h2>
+									<h2 class="text-slate-900 dark:text-slate-50">
 										{cartItem.quantity} × {getRef(cartItem)?.name}
 									</h2>
-									<h2 class="justify-self-end">
+									<h2 class="text-slate-900 dark:text-slate-50 justify-self-end">
 										{(
 											(cartItem.quantity * (getRef(cartItem)?.currentPriceCents ?? NaN)) /
 											100
@@ -201,15 +201,15 @@
 										})}
 									</h2>
 								{:else}
-									<h2 class="text-red-600 col-span-2">
+									<h2 class="text-red-600 dark:text-red-500 col-span-2">
 										Invalid quantity for {getRef(cartItem)?.name}
 									</h2>
 								{/if}
 							{/if}
 						{/each}
 						{#if allPurchasesValid($cart)}
-							<h2>Total:</h2>
-							<h2 class="justify-self-end">
+							<h2 class="text-slate-900 dark:text-slate-50">Total:</h2>
+							<h2 class="text-slate-900 dark:text-slate-50 justify-self-end">
 								{(
 									$cart.reduce((subTotal, item) => {
 										return subTotal + item.quantity * (getRef(item)?.currentPriceCents ?? NaN);
@@ -222,29 +222,31 @@
 						{/if}
 					</div>
 				</div>
-				<div class="flex flex-col rounded-lg m-4 p-4 gap-y-4 hover:opacity-75 duration-150">
+				<div class="flex flex-col rounded-lg m-4 p-4 gap-y-4">
 					{#if allPurchasesValid($cart)}
-						<h2 class="font-semibold">
+						<h2 class="font-semibold text-slate-900 dark:text-slate-50">
 							Enter your email. We need it to contact you about pickup of your items
 						</h2>
 						{#if email !== undefined}
 							{#if !emailCheck(email)}
-								<h2 class="text-red-600 text-center">Invalid email</h2>
+								<h2 class="text-red-600 dark:text-red-500 text-center">Invalid email</h2>
 							{:else if confirmEmail !== undefined && email !== confirmEmail}
-								<h2 class="text-red-600 text-center">Email addresses do not match</h2>
+								<h2 class="text-red-600 dark:text-red-500 text-center">
+									Email addresses do not match
+								</h2>
 							{/if}
 						{/if}
 						<input
 							type="email"
 							bind:value={email}
 							placeholder="Email"
-							class="bg-gray-300 rounded-md text-center"
+							class="bg-gray-300 dark:bg-gray-600 placeholder-slate-900 dark:placeholder-slate-50 rounded-md text-center"
 						/>
 						<input
 							type="email"
 							bind:value={confirmEmail}
 							placeholder="Confirm your email"
-							class="bg-gray-300 rounded-md text-center"
+							class="bg-gray-300 dark:bg-gray-600 placeholder-slate-900 dark:placeholder-slate-50 rounded-md text-center"
 						/>
 					{/if}
 				</div>
