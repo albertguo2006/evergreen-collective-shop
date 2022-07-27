@@ -1,20 +1,28 @@
 <script>
-import ItemShowcase from "$lib/ItemShowcase.svelte";
+	import ItemShowcase from "$lib/ItemShowcase.svelte";
 
-const objectIdString = "62d1d58fbd0546308bcd212a";
+	const objectIdString = "62d1d58fbd0546308bcd212a";
 </script>
 
 <ItemShowcase objectId={objectIdString}>
-	<div class="text-slate-900 dark:text-slate-50 text-lg">
+	<div class="flex flex-col text-slate-900 dark:text-slate-50 text-lg gap-y-6">
 		<h2>
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-			labore et dolore magna aliqua.
+			We would like your support in helping us donate to 2 charities aimed at helping victims and
+			damaged infrastructure of the upcoming wildfire season: Central Okanagan Emergency Food Relief
+			Fund and The Salvation Army. More information about both fundraisers can be found below. We
+			would be immensely grateful if you could donate and help us combat this collective issue
+			together.
 		</h2>
 		<h2>
-			Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-			commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-			dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+			Central Okanagan Food Bank BC Wildfires Emergency Food Relief Fund: Central Okanagan Food Bank
+			is expanding support and outreach to BC’s interior, which has seen a sharp increase in
+			wildfires, by supplying emergency food for any person or household currently displaced due to
+			fire evacuations.
 		</h2>
-		<h2 class="font-bold">sunt in culpa qui officia deserunt mollit anim id est laborum.</h2>
+		<h2>
+			The Salvation Army: Continues to assist thousands in the midst of BC Wildfires through
+			actively providing urgently needed support to first responders and those impacted by the
+			disaster in communities throughout the evacuation zones.
+		</h2>
 	</div>
 </ItemShowcase>
