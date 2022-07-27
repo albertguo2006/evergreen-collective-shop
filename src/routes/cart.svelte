@@ -177,7 +177,7 @@
 			</div>
 			<div class="flex flex-col h-max md:w-5/12 gap-y-4">
 				<div
-					class="flex flex-col hover:bg-gray-300 dark:hover:bg-zinc-600 rounded-lg m-4 p-4 gap-y-4 md:gap-y-8"
+					class="flex flex-col hover:bg-gray-300 dark:hover:bg-zinc-600 duration-300 rounded-lg m-4 p-4 gap-y-4 md:gap-y-8"
 				>
 					<h2 class="font-semibold text-slate-900 dark:text-slate-50">Order summary:</h2>
 					<div class="grid grid-cols-2 gap-y-2">
@@ -248,7 +248,7 @@
 					{/if}
 				</div>
 				{#if emailCheck(email) && email === confirmEmail}
-					PAYMENT BUTTON
+					ROUND TO NEAREST DOLLAR + PAYMENT BUTTON
 				{:else}
 					DISABLED PAYMENT BUTTON
 				{/if}
