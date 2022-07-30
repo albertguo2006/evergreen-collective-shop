@@ -58,6 +58,19 @@
 		return true;
 	}
 
+	function minimumPurchaseMet(cart: CartItem[]): boolean {
+		return (
+			cart
+				.map((cartItem) => (getRef(cartItem)?.currentPriceCents ?? 0) * cartItem.quantity)
+				.reduce((a, b) => a + b, 0) >= 100
+		);
+	}
+
+	function allowCheckout(cart: CartItem[]): boolean {
+		// Ensure minimum purchase of $1 so that we don't end up paying our payment processor more than what we actually earn
+		return allPurchasesValid(cart) && minimumPurchaseMet(cart);
+	}
+
 	function emailCheck(potentialEmail: string | undefined): boolean {
 		return (
 			//Equiv to stringCheck()
@@ -204,7 +217,7 @@
 								{/if}
 							{/if}
 						{/each}
-						{#if allPurchasesValid($cart)}
+						{#if allowCheckout($cart)}
 							<h2 class="text-slate-900 dark:text-slate-50">Total:</h2>
 							<h2 class="text-slate-900 dark:text-slate-50 justify-self-end">
 								{(
@@ -216,11 +229,23 @@
 									currency: "CAD"
 								})}
 							</h2>
+						{:else if allPurchasesValid($cart) && !minimumPurchaseMet($cart)}
+							<h2 class="text-red-600 dark:text-red-500 col-span-2">
+								Minimum purchase of {Number(1).toLocaleString("en-CA", {
+									style: "currency",
+									currency: "CAD"
+								})} not met
+							</h2>
+							<h2 class="text-red-600 dark:text-red-500 col-span-2">
+								We require a minimum purchase as our payment processors take a small cut of sales,
+								and it probably isn't ideal for us to be losing money while trying to accept
+								donations
+							</h2>
 						{/if}
 					</div>
 				</div>
 				<div class="flex flex-col rounded-lg m-4 p-4 gap-y-4">
-					{#if allPurchasesValid($cart)}
+					{#if allowCheckout($cart)}
 						<h2 class="font-semibold text-slate-900 dark:text-slate-50">
 							Enter your email. We need it to contact you about pickup of your items
 						</h2>
@@ -248,7 +273,7 @@
 					{/if}
 				</div>
 				{#if emailCheck(email) && email === confirmEmail}
-					ROUND TO NEAREST DOLLAR + PAYMENT BUTTON
+					DONATION REMINDER IF NO DONATION MADE + PAYMENT BUTTON
 				{:else}
 					DISABLED PAYMENT BUTTON
 				{/if}
