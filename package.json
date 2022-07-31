@@ -37,6 +37,7 @@
 	"type": "module",
 	"dependencies": {
 		"@inqling/svelte-icons": "^0.2.2",
+		"@paypal/paypal-js": "^5.1.0",
 		"dotenv": "^16.0.1",
 		"mongodb": "^4.7.0",
 		"svelte-local-storage-store": "^0.2.6"
