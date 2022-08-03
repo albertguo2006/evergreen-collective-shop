@@ -22,8 +22,8 @@ export const POST: RequestHandler = async ({ request }) => {
         };
     }
 
-    // This next line accepts the payments from users, and makes sure that the payment is valid.
-    const orderDetails = await onApproveActions.order?.capture();
+    // Check order details first, to confirm that we still have stock
+    const orderDetails = await onApproveActions.order?.get();
 
     if (orderDetails === undefined || orderDetails.status !== "APPROVED") {
         return {
@@ -61,6 +61,8 @@ export const POST: RequestHandler = async ({ request }) => {
                 }
             }
         }
+
+        await onApproveActions.order?.capture(); // Capture the payment
 
         const dbConnection = await clientPromise;
         const db = dbConnection.db(process.env["DB_NAME"]);
