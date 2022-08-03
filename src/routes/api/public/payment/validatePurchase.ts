@@ -50,17 +50,40 @@ export const POST: RequestHandler = async ({ request }) => {
 
     if (Number(purchase?.amount.value) !== purchasedItems?.reduce((acc, item) => acc + Number(item.quantity) * Number(item.unit_amount.value), 0)) {
         const allItemStock = await allItems();
-        for (const purchasedItem of purchasedItems) {
-            // Remember to convert purchasedItem.unit_amount.value to cents for comparison
-            if (allItemStock.find(ref => ref._id === purchasedItem.sku)?.currentPriceCents !== Number(purchasedItem.unit_amount.value) * 100) {
+        purchasedItems.forEach( purchasedItem => {
+            const ref = allItemStock.find( ref => ref._id.toString() === purchasedItem.sku );
+
+            if (ref === undefined) {
                 return {
                     status: 401,
                     body: {
+                        error: `Invalid item id ${purchasedItem.sku} in purchased`,
                         success: false
                     }
                 }
             }
-        }
+
+            // Remember to convert purchasedItem.unit_amount.value to cents for comparison
+            if (ref.currentPriceCents !== Number(purchasedItem.unit_amount.value) * 100) {
+                return {
+                    status: 401,
+                    body: {
+                        error: "Incorrect item price",
+                        success: false
+                    }
+                }
+            }
+
+            if (!ref.isUnlimited && (ref.originalStockIfLimited ?? NaN - ref.sold - Number(purchasedItem.quantity) < 0)) {
+                return {
+                    status: 401,
+                    body: {
+                        error: `Insufficient stock for item ${ref.name}`,
+                        success: false
+                    }
+                }
+            }
+        });
 
         await onApproveActions.order?.capture(); // Capture the payment
 
@@ -77,6 +100,7 @@ export const POST: RequestHandler = async ({ request }) => {
                     status: 401,
                     body: {
                         error: `Invalid item id ${purchasedItem.sku} in purchased`,
+                        success: false
                     }
                 }
             }
