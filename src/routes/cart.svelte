@@ -2,27 +2,90 @@
 	import { cart, CartItem } from "$lib/cartItems";
 	import { fade, fly } from "svelte/transition";
 	import { flip } from "svelte/animate";
+	import {
+		loadScript,
+		type CreateOrderRequestBody,
+		type PayPalButtonsComponent,
+		type PayPalNamespace,
+	} from "@paypal/paypal-js";
 	import type ItemStock from "$lib/ItemStock";
 	import { onMount } from "svelte";
 	import XCircle from "@inqling/svelte-icons/outline/x-circle.svelte";
 
 	let availableItems: ItemStock[] | undefined;
+	let payPal: PayPalNamespace | null | undefined;
+	let payPalButton: PayPalButtonsComponent | undefined;
 
+	let name: string | undefined;
 	let email: string | undefined;
 	let confirmEmail: string | undefined;
 
-	onMount(async () => obtainAvailableItems());
+	let successfulPurchase: boolean = false;
 
-	async function obtainAvailableItems() {
-		const itemRes = await fetch("/api/public/items", {
+	onMount(async () => {
+		const itemsRes = await fetch("/api/public/items", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json"
 			}
 		});
-		const json = await itemRes.json();
-		availableItems = json.items;
-	}
+		const itemsJson = await itemsRes.json();
+		availableItems = itemsJson.items;
+
+		const payPalRes = await fetch("/api/public/payment/payPalClientId", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		});
+		const payPalJson = await payPalRes.json();
+		const payPalClientId = payPalJson.clientId;
+
+		payPal = await loadScript({ "client-id": payPalClientId!, currency: "CAD" });
+		payPalButton = payPal?.Buttons?.({
+			createOrder: async function (data, actions) {
+				const orderRes = await fetch("/api/public/payment/createOrder", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						cart: $cart
+					})
+				});
+
+				const orderJson = await orderRes.json();
+
+				const order: CreateOrderRequestBody = orderJson.order;
+				return actions.order.create(order);
+			},
+
+			onCancel: async function (data, actions) {
+				
+			},
+
+			onApprove: async function (data, actions) {
+				const validateRes = await fetch("/api/public/payment/validatePurchase", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						onApproveActions: actions,
+						name,
+						email
+					})
+				});
+
+				const validateJson = await validateRes.json();
+				if (validateJson.success) {
+					cart.set([]); // Clear the cart
+					successfulPurchase = true;
+				}
+			}
+		});
+		payPalButton?.render("#paypal-button-container");
+	});
 
 	function getRef(cartItem: CartItem): ItemStock | undefined {
 		return availableItems?.find((item) => item._id == cartItem.itemId);
@@ -73,7 +136,6 @@
 
 	function emailCheck(potentialEmail: string | undefined): boolean {
 		return (
-			//Equiv to stringCheck()
 			potentialEmail !== undefined &&
 			potentialEmail !== "" &&
 			// Ensure it's an email address
@@ -243,40 +305,53 @@
 							</h2>
 						{/if}
 					</div>
-				</div>
-				<div class="flex flex-col rounded-lg m-4 p-4 gap-y-4">
-					{#if allowCheckout($cart)}
-						<h2 class="font-semibold text-slate-900 dark:text-slate-50">
-							Enter your email. We need it to contact you about pickup of your items
-						</h2>
-						{#if email !== undefined}
-							{#if !emailCheck(email)}
-								<h2 class="text-red-600 dark:text-red-500 text-center">Invalid email</h2>
-							{:else if confirmEmail !== undefined && email !== confirmEmail}
-								<h2 class="text-red-600 dark:text-red-500 text-center">
-									Email addresses do not match
-								</h2>
+
+					<div class="flex flex-col rounded-lg m-4 p-4 gap-y-4">
+						{#if allowCheckout($cart)}
+							<h2 class="font-semibold text-slate-900 dark:text-slate-50">
+								Enter your email. We need it to contact you about pickup of your items
+							</h2>
+							{#if email !== undefined}
+								{#if !emailCheck(email)}
+									<h2 class="text-red-600 dark:text-red-500 text-center">Invalid email</h2>
+								{:else if confirmEmail !== undefined && email !== confirmEmail}
+									<h2 class="text-red-600 dark:text-red-500 text-center">
+										Email addresses do not match
+									</h2>
+								{/if}
 							{/if}
+							<input
+								type="text"
+								bind:value={name}
+								placeholder="Name"
+								class="bg-gray-400 dark:bg-gray-800 placeholder-slate-900 dark:placeholder-slate-50 text-slate-900 dark:text-slate-50 rounded-md text-center"
+							/>
+							<input
+								type="email"
+								bind:value={email}
+								placeholder="Email"
+								class="bg-gray-400 dark:bg-gray-800 placeholder-slate-900 dark:placeholder-slate-50 text-slate-900 dark:text-slate-50 rounded-md text-center"
+							/>
+							<input
+								type="email"
+								bind:value={confirmEmail}
+								placeholder="Confirm your email"
+								class="bg-gray-400 dark:bg-gray-800 placeholder-slate-900 dark:placeholder-slate-50 text-slate-900 dark:text-slate-50 rounded-md text-center"
+							/>
 						{/if}
-						<input
-							type="email"
-							bind:value={email}
-							placeholder="Email"
-							class="bg-gray-300 dark:bg-gray-600 placeholder-slate-900 dark:placeholder-slate-50 rounded-md text-center"
-						/>
-						<input
-							type="email"
-							bind:value={confirmEmail}
-							placeholder="Confirm your email"
-							class="bg-gray-300 dark:bg-gray-600 placeholder-slate-900 dark:placeholder-slate-50 rounded-md text-center"
-						/>
+					</div>
+
+					{#if allowCheckout($cart)}
+						<div id="paypal-button-container" class="rounded-lg border-0" />
+					{:else}
+						<button
+							class="w-full hover:opacity-90 p-2 m-2 rounded-lg place-self-center bg-red-500 text-slate-50 self-center"
+							disabled
+						>
+							Invalid selection
+						</button>
 					{/if}
 				</div>
-				{#if emailCheck(email) && email === confirmEmail}
-					DONATION REMINDER IF NO DONATION MADE + PAYMENT BUTTON
-				{:else}
-					DISABLED PAYMENT BUTTON
-				{/if}
 			</div>
 		{/if}
 	{/if}
