@@ -146,6 +146,7 @@
 
 <svelte:head>
 	<title>Cart</title>
+	<meta name="description" content="View Cart and Checkout" />
 </svelte:head>
 
 <div class="flex flex-col md:flex-row py-10">
