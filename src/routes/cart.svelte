@@ -6,7 +6,7 @@
 		loadScript,
 		type CreateOrderRequestBody,
 		type PayPalButtonsComponent,
-		type PayPalNamespace,
+		type PayPalNamespace
 	} from "@paypal/paypal-js";
 	import type ItemStock from "$lib/ItemStock";
 	import { onMount } from "svelte";
@@ -19,8 +19,9 @@
 	let name: string | undefined;
 	let email: string | undefined;
 	let confirmEmail: string | undefined;
+	let purchasedItems: CartItem[] | undefined;
 
-	let successfulPurchase: boolean = false;
+	let successfulPurchase: boolean = true;
 
 	onMount(async () => {
 		const itemsRes = await fetch("/api/public/items", {
@@ -44,13 +45,14 @@
 		payPal = await loadScript({ "client-id": payPalClientId!, currency: "CAD" });
 		payPalButton = payPal?.Buttons?.({
 			createOrder: async function (data, actions) {
+				purchasedItems = $cart;
 				const orderRes = await fetch("/api/public/payment/createOrder", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
 					},
 					body: JSON.stringify({
-						cart: $cart
+						cart: purchasedItems
 					})
 				});
 
@@ -58,10 +60,6 @@
 
 				const order: CreateOrderRequestBody = orderJson.order;
 				return actions.order.create(order);
-			},
-
-			onCancel: async function (data, actions) {
-				
 			},
 
 			onApprove: async function (data, actions) {
@@ -151,7 +149,60 @@
 </svelte:head>
 
 <div class="flex flex-col md:flex-row py-10">
-	{#if availableItems !== undefined}
+	{#if successfulPurchase === true && purchasedItems}
+		<div class="flex flex-col w-full gap-y-4">
+			<div class="grid grid-flow-col justify-items-center">
+				<h2 class="text-stone-900 dark:text-stone-50">Successful Purchase</h2>
+			</div>
+			{#each purchasedItems as cartItem (cartItem.itemId)}
+				<a
+					in:fade
+					out:fly|local={{ x: -600, duration: 1000 }}
+					animate:flip={{ duration: 1000 }}
+					href="/item/{cartItem.itemId}"
+					class="flex flex-col md:flex-row gap-x-8 p-4 mx-8 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 duration-300"
+				>
+					<!-- In all child elements of the anchor tag, ensure to preventDefault on all children than are
+			meant to be clicked (i.e. quantity and remove buttons). -->
+
+					{#if getRef(cartItem) !== undefined}
+						<div class="grid grid-flow-col w-full md:w-auto">
+							<img
+								alt="Picture of {getRef(cartItem)?.name}"
+								src="/images/{cartItem.itemId}.jpeg"
+								class="h-48 w-48 rounded"
+							/>
+						</div>
+
+						<div class="grid grid-flow-col lg:grid-cols-2 w-3/4 mt-5 md:mt-1">
+							<div class="grid grid-row-1">
+								<div class="mb-8">
+									<h2 class="text-stone-900 dark:text-stone-50 font-bold capitalize">
+										{getRef(cartItem)?.name}
+									</h2>
+
+									<!-- Purposefully kept to only change on large instead of medium -->
+									<h2
+										class="bg-gray-200 h-8 w-12 rounded-lg text-center justify-self-end lg:hidden"
+									>
+										Quantity: {cartItem.quantity}
+									</h2>
+								</div>
+							</div>
+							<h2
+								class="bg-gray-200 h-8 w-12 rounded-lg text-center justify-self-end hidden lg:block"
+							>
+								Quantity: {cartItem.quantity}
+							</h2>
+						</div>
+					{:else}
+						<!-- Remove the invalid item -->
+						{cart.update((c) => c.filter((item) => item.itemId !== cartItem.itemId))}
+					{/if}
+				</a>
+			{/each}
+		</div>
+	{:else if availableItems !== undefined}
 		{#if $cart.length <= 0}
 			<h1 class="text-2xl font-bold text-stone-900 dark:text-stone-50 text-center mx-auto">
 				Your cart is empty. Explore some items to add to your cart?
