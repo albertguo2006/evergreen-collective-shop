@@ -1,4 +1,4 @@
-import { allItems } from "./items/index";
+import { allItems } from "../items/index";
 import dotenv from "dotenv";
 import type { RequestHandler } from "@sveltejs/kit";
 import type { OnApproveActions } from "@paypal/paypal-js";
@@ -7,7 +7,6 @@ import { Product, Purchase, PurchaseStatus } from "$lib/Purchase";
 import { ObjectId } from "mongodb";
 
 dotenv.config();
-
 
 export const POST: RequestHandler = async ({ request }) => {
 
@@ -63,13 +62,38 @@ export const POST: RequestHandler = async ({ request }) => {
             }
         }
 
-        // The stock of the product has already been updated in the initial button click phase. Just add the customer order to the db.
-
         const dbConnection = await clientPromise;
         const db = dbConnection.db(process.env["DB_NAME"]);
-        const collection = db.collection(process.env["DB_STOCK_COLLECTION"] as string);
+        const stockCollection = db.collection(process.env["DB_STOCK_COLLECTION"] as string);
+        const purchaseCollection = db.collection(process.env["DB_PURCHASE_COLLECTION"] as string);
 
-        collection.insertOne(
+        purchasedItems.forEach(purchasedItem => {
+            const ref = allItemStock.find(ref => ref._id === purchasedItem.sku);
+
+            if (ref === undefined) {
+                return {
+                    status: 401,
+                    body: {
+                        error: `Invalid item id ${purchasedItem.sku} in purchased`,
+                    }
+                }
+            }
+
+            const update = ref.isUnlimited ? {
+                sold: ref.sold + Number(purchasedItem.quantity),
+            } : {
+                sold: ref.sold + Number(purchasedItem.quantity),
+                originalStockIfLimited: ref.originalStockIfLimited ?? NaN - Number(purchasedItem.quantity)
+            }
+
+
+            stockCollection.updateOne(
+                { _id: purchasedItem.sku },
+                { $set: JSON.stringify(update) }
+            );
+        });
+
+        purchaseCollection.insertOne(
             new Purchase(
                 name,
                 email,
