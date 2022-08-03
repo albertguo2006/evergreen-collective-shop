@@ -21,7 +21,7 @@
 	let confirmEmail: string | undefined;
 	let purchasedItems: CartItem[] | undefined;
 
-	let successfulPurchase: boolean = true;
+	let successfulPurchase: boolean = false;
 
 	onMount(async () => {
 		const itemsRes = await fetch("/api/public/items", {
