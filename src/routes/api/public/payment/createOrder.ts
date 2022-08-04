@@ -18,7 +18,6 @@ export const POST: RequestHandler = async ({ request }) => {
     }
 
     const allItemStock = await allItems();
-    console.log(allItemStock);
 
     const createOrderRequestBody: CreateOrderRequestBody = ({
         intent: "CAPTURE",
