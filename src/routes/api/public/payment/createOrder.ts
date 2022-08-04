@@ -32,7 +32,7 @@ export const POST: RequestHandler = async ({ request }) => {
                                 acc +
                                 cur.quantity *
                                 (allItemStock.find((ref) => ref._id?.toString() === cur.itemId?.toString())?.currentPriceCents ??
-                                    0 / 100),
+                                    0) / 100,
                             0
                         )
                         .toString(),
@@ -45,7 +45,7 @@ export const POST: RequestHandler = async ({ request }) => {
                                         acc +
                                         cur.quantity *
                                         (allItemStock.find((ref) => ref._id?.toString() === cur.itemId?.toString())?.currentPriceCents ??
-                                            0 / 100),
+                                            0) / 100,
                                     0
                                 )
                                 .toString()
@@ -58,7 +58,7 @@ export const POST: RequestHandler = async ({ request }) => {
                     unit_amount: {
                         currency_code: "CAD",
                         value: (
-                            allItemStock.find((ref) => ref._id?.toString() === item.itemId?.toString())?.currentPriceCents ?? 0 / 100
+                            (allItemStock.find((ref) => ref._id?.toString() === item.itemId?.toString())?.currentPriceCents ?? 0) / 100
                         ).toString()
                     },
                     sku: item.itemId.toString(),
