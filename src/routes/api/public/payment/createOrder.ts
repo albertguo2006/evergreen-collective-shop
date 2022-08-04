@@ -18,6 +18,7 @@ export const POST: RequestHandler = async ({ request }) => {
     }
 
     const allItemStock = await allItems();
+    console.log(allItemStock);
 
     const createOrderRequestBody: CreateOrderRequestBody = ({
         intent: "CAPTURE",
@@ -30,7 +31,7 @@ export const POST: RequestHandler = async ({ request }) => {
                             (acc, cur) =>
                                 acc +
                                 cur.quantity *
-                                (allItemStock.find((ref) => ref._id === cur.itemId)?.currentPriceCents ??
+                                (allItemStock.find((ref) => ref._id?.toString() === cur.itemId?.toString())?.currentPriceCents ??
                                     0 / 100),
                             0
                         )
@@ -43,7 +44,7 @@ export const POST: RequestHandler = async ({ request }) => {
                                     (acc, cur) =>
                                         acc +
                                         cur.quantity *
-                                        (allItemStock.find((ref) => ref._id === cur.itemId)?.currentPriceCents ??
+                                        (allItemStock.find((ref) => ref._id?.toString() === cur.itemId?.toString())?.currentPriceCents ??
                                             0 / 100),
                                     0
                                 )
@@ -52,12 +53,12 @@ export const POST: RequestHandler = async ({ request }) => {
                     }
                 },
                 items: cart.map((item) => ({
-                    name: allItemStock.find((ref) => ref._id === item.itemId)?.name ?? "UNKNOWN",
+                    name: allItemStock.find((ref) => ref._id?.toString() === item.itemId?.toString())?.name ?? "UNKNOWN",
                     quantity: item.quantity.toString(),
                     unit_amount: {
                         currency_code: "CAD",
                         value: (
-                            allItemStock.find((ref) => ref._id === item.itemId)?.currentPriceCents ?? 0 / 100
+                            allItemStock.find((ref) => ref._id?.toString() === item.itemId?.toString())?.currentPriceCents ?? 0 / 100
                         ).toString()
                     },
                     sku: item.itemId.toString(),
@@ -73,13 +74,13 @@ export const POST: RequestHandler = async ({ request }) => {
 
     cart.forEach((item) => {
 
-        const ref = allItemStock.find((ref) => ref._id === item.itemId);
+        const ref = allItemStock.find((ref) => ref._id?.toString() === item.itemId?.toString());
 
         if (ref === undefined) {
             return {
                 status: 401,
                 body: {
-                    error: `Invalid item id ${item.itemId} in cart`,
+                    error: `Invalid item id ${item.itemId?.toString()} in cart`,
                 }
             }
         }

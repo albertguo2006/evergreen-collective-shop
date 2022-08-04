@@ -51,7 +51,7 @@ export const POST: RequestHandler = async ({ request }) => {
     if (Number(purchase?.amount.value) !== purchasedItems?.reduce((acc, item) => acc + Number(item.quantity) * Number(item.unit_amount.value), 0)) {
         const allItemStock = await allItems();
         purchasedItems.forEach( purchasedItem => {
-            const ref = allItemStock.find( ref => ref._id.toString() === purchasedItem.sku );
+            const ref = allItemStock.find( ref => ref._id?.toString() === purchasedItem.sku );
 
             if (ref === undefined) {
                 return {
@@ -93,7 +93,7 @@ export const POST: RequestHandler = async ({ request }) => {
         const purchaseCollection = db.collection(process.env["DB_PURCHASE_COLLECTION"] as string);
 
         purchasedItems.forEach(purchasedItem => {
-            const ref = allItemStock.find(ref => ref._id === purchasedItem.sku);
+            const ref = allItemStock.find(ref => ref._id?.toString() === purchasedItem.sku);
 
             if (ref === undefined) {
                 return {
