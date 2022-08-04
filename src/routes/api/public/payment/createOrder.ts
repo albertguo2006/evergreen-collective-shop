@@ -61,12 +61,7 @@ export const POST: RequestHandler = async ({ request }) => {
                             (allItemStock.find((ref) => ref._id?.toString() === item.itemId?.toString())?.currentPriceCents ?? 0) / 100
                         ).toString()
                     },
-                    sku: item.itemId.toString(),
-                    // 62d1d58fbd0546308bcd212a is the id for a donation
-                    category:
-                        item.itemId.toString() === "62d1d58fbd0546308bcd212a"
-                            ? "DONATION"
-                            : "PHYSICAL_GOODS"
+                    sku: item.itemId.toString()
                 }))
             }
         ]
