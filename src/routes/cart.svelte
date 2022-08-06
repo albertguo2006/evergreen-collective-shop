@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cart, CartItem } from "$lib/cartItems";
+	import { cart, CartItem, lastPurchasedItems } from "$lib/cartItems";
 	import { fade, fly } from "svelte/transition";
 	import { flip } from "svelte/animate";
 	import {
@@ -19,19 +19,12 @@
 	let name: string | undefined;
 	let email: string | undefined;
 	let confirmEmail: string | undefined;
+	let payPalRendered: boolean = false;
+
 	let purchasedItems: CartItem[] | undefined;
 
-	let successfulPurchase: boolean = false;
-
 	onMount(async () => {
-		const itemsRes = await fetch("/api/public/items", {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json"
-			}
-		});
-		const itemsJson = await itemsRes.json();
-		availableItems = itemsJson.items;
+		updateStockAvailability();
 
 		const payPalRes = await fetch("/api/public/payment/payPalClientId", {
 			method: "GET",
@@ -43,47 +36,108 @@
 		const payPalClientId = payPalJson.clientId;
 
 		payPal = await loadScript({ "client-id": payPalClientId!, currency: "CAD" });
-		payPalButton = payPal?.Buttons?.({
-			createOrder: async function (data, actions) {
-				purchasedItems = $cart;
-				const orderRes = await fetch("/api/public/payment/createOrder", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						cart: purchasedItems
-					})
-				});
+	});
 
-				const orderJson = await orderRes.json();
-
-				const order: CreateOrderRequestBody = orderJson.order;
-				return actions.order.create(order);
-			},
-
-			onApprove: async function (data, actions) {
-				const validateRes = await fetch("/api/public/payment/validatePurchase", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						onApproveActions: actions,
-						name,
-						email
-					})
-				});
-
-				const validateJson = await validateRes.json();
-				if (validateJson.success) {
-					cart.set([]); // Clear the cart
-					successfulPurchase = true;
-				}
+	async function updateStockAvailability() {
+		const itemsRes = await fetch("/api/public/items", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
 			}
 		});
-		payPalButton?.render("#paypal-button-container");
-	});
+		const itemsJson = await itemsRes.json();
+		availableItems = itemsJson.items;
+	}
+
+	async function createPayPalOrderInfo() {
+		updateStockAvailability();
+		if (!payPalRendered) return; //Something in the state changed so that we shouldn't render the order info.
+
+		return await fetch("/api/public/payment/createOrder", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				cart: purchasedItems
+			})
+		});
+	}
+
+	$: if (
+		name !== undefined &&
+		emailCheck(email) &&
+		email === confirmEmail &&
+		allowCheckout($cart) &&
+		!payPalRendered
+	) {
+		/*
+		 Immedietly make payPalRendered to be true, so that we don't get a duplicate render, but delay the actual render, 
+		 to allow Svelte to show the rendered div (hiding the div using {#if} unrenders the buttons
+		*/
+		payPalRendered = true;
+		setTimeout(() => {
+			// payPalButton?.close();
+			payPalButton = payPal?.Buttons?.({
+				createOrder: async function (data, actions) {
+					// For some reason, fetch in this function causes the creation to fail. Moving the fetch to a separate function and await that works
+					purchasedItems = $cart;
+					const orderRes = await createPayPalOrderInfo();
+
+					if (orderRes === undefined) {
+						return actions.order.create({
+							//Purposefully pass a failing order
+							purchase_units: [
+								{
+									amount: {
+										currency_code: "CAD",
+										value: "0.00"
+									}
+								}
+							]
+						});
+					}
+
+					const orderJson = await orderRes.json();
+
+					const order: CreateOrderRequestBody = orderJson.order;
+					return actions.order.create(order);
+				},
+
+				onApprove: async function (data, actions) {
+					// Passing actions not working cause serialization of methods is not working
+					const validateRes = await fetch("/api/public/payment/validatePurchase", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({
+							orderId: data.orderID,
+							name,
+							email
+						})
+					});
+
+					const validateJson = await validateRes.json();
+					if (validateJson.success) {
+						lastPurchasedItems.set(purchasedItems ?? []);
+						cart.set([]); // Clear the cart
+						location.href = "/success";
+					} else {
+						alert(`Payment failed: ${validateJson.error}`);
+					}
+				}
+			});
+			payPalButton?.render("#paypal-button-container");
+		}, 100);
+	} else if (
+		name === undefined ||
+		!emailCheck(email) ||
+		email !== confirmEmail ||
+		!allowCheckout($cart)
+	) {
+		payPalRendered = false;
+	}
 
 	function getRef(cartItem: CartItem): ItemStock | undefined {
 		return availableItems?.find((item) => item._id == cartItem.itemId);
@@ -150,60 +204,7 @@
 </svelte:head>
 
 <div class="flex flex-col md:flex-row py-10">
-	{#if successfulPurchase === true && purchasedItems}
-		<div class="flex flex-col w-full gap-y-4">
-			<div class="grid grid-flow-col justify-items-center">
-				<h2 class="text-stone-900 dark:text-stone-50">Successful Purchase</h2>
-			</div>
-			{#each purchasedItems as cartItem (cartItem.itemId)}
-				<a
-					in:fade
-					out:fly|local={{ x: -600, duration: 1000 }}
-					animate:flip={{ duration: 1000 }}
-					href="/item/{cartItem.itemId}"
-					class="flex flex-col md:flex-row gap-x-8 p-4 mx-8 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 duration-300"
-				>
-					<!-- In all child elements of the anchor tag, ensure to preventDefault on all children than are
-			meant to be clicked (i.e. quantity and remove buttons). -->
-
-					{#if getRef(cartItem) !== undefined}
-						<div class="grid grid-flow-col w-full md:w-auto">
-							<img
-								alt="Picture of {getRef(cartItem)?.name}"
-								src="/images/{cartItem.itemId}.jpeg"
-								class="h-48 w-48 rounded"
-							/>
-						</div>
-
-						<div class="grid grid-flow-col lg:grid-cols-2 w-3/4 mt-5 md:mt-1">
-							<div class="grid grid-row-1">
-								<div class="mb-8">
-									<h2 class="text-stone-900 dark:text-stone-50 font-bold capitalize">
-										{getRef(cartItem)?.name}
-									</h2>
-
-									<!-- Purposefully kept to only change on large instead of medium -->
-									<h2
-										class="bg-gray-200 h-8 w-12 rounded-lg text-center justify-self-end lg:hidden"
-									>
-										Quantity: {cartItem.quantity}
-									</h2>
-								</div>
-							</div>
-							<h2
-								class="bg-gray-200 h-8 w-12 rounded-lg text-center justify-self-end hidden lg:block"
-							>
-								Quantity: {cartItem.quantity}
-							</h2>
-						</div>
-					{:else}
-						<!-- Remove the invalid item -->
-						{cart.update((c) => c.filter((item) => item.itemId !== cartItem.itemId))}
-					{/if}
-				</a>
-			{/each}
-		</div>
-	{:else if availableItems !== undefined}
+	{#if availableItems !== undefined}
 		{#if $cart.length <= 0}
 			<h1 class="text-2xl font-bold text-stone-900 dark:text-stone-50 text-center mx-auto">
 				Your cart is empty. Explore some items to add to your cart?
@@ -265,12 +266,16 @@
 									</div>
 
 									<div class="self-end mb-1">
-										{#if getRef(cartItem)?.isUnlimited !== true && (getRef(cartItem)?.originalStockIfLimited ?? NaN - (getRef(cartItem)?.sold ?? NaN)) < cartItem.quantity}
+										{#if getRef(cartItem)?.isUnlimited !== true && (getRef(cartItem)?.originalStockIfLimited ?? NaN) - (getRef(cartItem)?.sold ?? NaN) < cartItem.quantity}
 											<h2 class="text-red-600 dark:text-red-500">
-												Only {getRef(cartItem)?.originalStockIfLimited ??
-													NaN - (getRef(cartItem)?.sold ?? NaN)} in stock
+												{#if (getRef(cartItem)?.originalStockIfLimited ?? NaN) - (getRef(cartItem)?.sold ?? NaN) > 0}
+													Only {(getRef(cartItem)?.originalStockIfLimited ?? NaN) -
+														(getRef(cartItem)?.sold ?? NaN)} in stock
+												{:else}
+													Out Of Stock
+												{/if}
 											</h2>
-										{:else if getRef(cartItem)?.isUnlimited === true || (getRef(cartItem)?.originalStockIfLimited ?? NaN - (getRef(cartItem)?.sold ?? NaN)) >= cartItem.quantity}
+										{:else if getRef(cartItem)?.isUnlimited === true || (getRef(cartItem)?.originalStockIfLimited ?? NaN) - (getRef(cartItem)?.sold ?? NaN) >= cartItem.quantity}
 											{#if validateNaturalNumber(cartItem.quantity)}
 												<h2 class="text-green-600 dark:text-green-500">Available to purchase</h2>
 											{:else}
@@ -394,10 +399,16 @@
 					</div>
 
 					{#if allowCheckout($cart)}
-						<div id="paypal-button-container" class="rounded-lg border-0" />
+						{#if name !== undefined && emailCheck(email) && confirmEmail === email}
+							<div id="paypal-button-container" class="rounded-lg border-0" />
+						{:else}
+							<h2 class="text-red-600 dark:text-red-500 rounded-lg self-center">
+								Enter your name and email to checkout
+							</h2>
+						{/if}
 					{:else}
 						<button
-							class="w-full hover:opacity-90 p-2 m-2 rounded-lg place-self-center bg-red-500 text-slate-50 self-center"
+							class="w-full hover:opacity-90 p-2 m-2 rounded-lg bg-red-500 text-slate-50 self-center"
 							disabled
 						>
 							Invalid selection
@@ -408,3 +419,4 @@
 		{/if}
 	{/if}
 </div>
+<div id="c" />

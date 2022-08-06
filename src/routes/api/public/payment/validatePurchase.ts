@@ -32,8 +32,6 @@ export const POST: RequestHandler = async ({ request }) => {
         }
     })).json();
 
-    console.log(orderDetails.intent);
-
     if (orderDetails === undefined || orderDetails.status !== "APPROVED") {
         return {
             status: 401,
@@ -65,10 +63,10 @@ export const POST: RequestHandler = async ({ request }) => {
                 success: false
             }
         }
-
     }
+
     const allItemStock = await allItems();
-    purchasedItems.forEach(purchasedItem => {
+    for (const purchasedItem of purchasedItems) {
         const ref = allItemStock.find(ref => ref._id?.toString() === purchasedItem.sku);
 
         if (ref === undefined) {
@@ -92,16 +90,17 @@ export const POST: RequestHandler = async ({ request }) => {
             }
         }
 
-        if (!ref.isUnlimited && (ref.originalStockIfLimited ?? NaN - ref.sold - Number(purchasedItem.quantity) < 0)) {
+        if (!ref.isUnlimited && ((ref.originalStockIfLimited ?? NaN) - ref.sold - Number(purchasedItem.quantity) < 0)) {
+            console.log(orderId);
             return {
                 status: 401,
                 body: {
-                    error: `Insufficient stock for item ${ref.name}`,
+                    error: `Insufficient stock for item "${ref.name}"`,
                     success: false
                 }
             }
         }
-    });
+    }
 
     // Actually collect the payment
     await fetch(`${payPalBaseUrl}v2/checkout/orders/${orderId}/capture`, {
@@ -119,7 +118,7 @@ export const POST: RequestHandler = async ({ request }) => {
     const stockCollection = db.collection(process.env["DB_STOCK_COLLECTION"] as string);
     const purchaseCollection = db.collection(process.env["DB_PURCHASE_COLLECTION"] as string);
 
-    purchasedItems.forEach(purchasedItem => {
+    for (const purchasedItem of purchasedItems) {
         const ref = allItemStock.find(ref => ref._id?.toString() === purchasedItem.sku);
 
         if (ref === undefined) {
@@ -137,7 +136,7 @@ export const POST: RequestHandler = async ({ request }) => {
             { _id: ref._id },
             { $set: { sold: ref.sold + Number(purchasedItem.quantity) } }
         );
-    });
+    }
 
     purchaseCollection.insertOne(
         new Purchase(
