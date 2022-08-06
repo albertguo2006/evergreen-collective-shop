@@ -79,7 +79,7 @@ export const POST: RequestHandler = async ({ request }) => {
             }
         }
 
-        if (!ref.isUnlimited && (ref.originalStockIfLimited ?? NaN - ref.sold - item.quantity < 0)) {
+        if (!ref.isUnlimited && ((ref.originalStockIfLimited ?? NaN) - ref.sold - item.quantity < 0)) {
             return {
                 status: 401,
                 body: {
