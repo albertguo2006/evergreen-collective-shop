@@ -191,7 +191,7 @@
 					</div>
 				</div>
 
-				{#if stringCheck(originalItem.name, editedName) || wholeNumberCheck(originalItem.currentPriceCents, editedPrice) || isUnlimitedCheck(originalItem.isUnlimited, editedUnlimited, editedStock) || (!isUnlimitedCheck && wholeNumberCheck(originalItem?.originalStockIfLimited, editedStock)) || wholeNumberCheck(originalItem.sold, editedSold)}
+				{#if stringCheck(originalItem.name, editedName) || wholeNumberCheck(originalItem.currentPriceCents, editedPrice) || isUnlimitedCheck(originalItem.isUnlimited, editedUnlimited, editedStock) || (typeof editedUnlimited === "boolean" && !editedUnlimited && wholeNumberCheck(originalItem?.originalStockIfLimited, editedStock)) || wholeNumberCheck(originalItem.sold, editedSold)}
 					<button
 						type="submit"
 						class="block h-12 mt-2 rounded-lg bg-red-500 dark:bg-red-400"
