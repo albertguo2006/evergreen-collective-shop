@@ -11,9 +11,9 @@ export const POST: RequestHandler = async ({ request }) => {
     if (cart === undefined) {
         return {
             status: 401,
-            body: {
+            body: JSON.stringify({
                 error: "Invalid request body. Ensure it is a valid json entry of the shopping cart",
-            }
+            })
         };
     }
 
@@ -73,19 +73,18 @@ export const POST: RequestHandler = async ({ request }) => {
         if (ref === undefined) {
             return {
                 status: 401,
-                body: {
+                body: JSON.stringify({
                     error: `Invalid item id ${item.itemId?.toString()} in cart`,
-                }
+                })
             }
         }
 
         if (!ref.isUnlimited && ((ref.originalStockIfLimited ?? NaN) - ref.sold - item.quantity < 0)) {
             return {
                 status: 401,
-                body: {
+                body: JSON.stringify({
                     error: `Insufficient stock for item ${item.itemId} in cart`,
-                    insufficientStock: true
-                }
+                })
             }
         }
 
@@ -93,9 +92,9 @@ export const POST: RequestHandler = async ({ request }) => {
 
     return {
         status: 200,
-        body: {
+        body: JSON.stringify({
             order: createOrderRequestBody
-        }
+        })
     }
 
 }
