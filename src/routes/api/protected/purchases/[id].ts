@@ -3,7 +3,7 @@ import type { RequestHandler } from "@sveltejs/kit";
 import { ObjectId } from "mongodb";
 import { isAuthorized } from "../../public/authCheck";
 
-export const get: RequestHandler = async ({ params, request }) => {
+export const GET: RequestHandler = async ({ params, request }) => {
 
     const requestAuthCode = isAuthorized(request.headers.get("cookie")?.split(";"));
     if (requestAuthCode !== 200) {
@@ -48,7 +48,7 @@ export const get: RequestHandler = async ({ params, request }) => {
     }
 }
 
-export const patch: RequestHandler = async ({ params, request }) => {
+export const PATCH: RequestHandler = async ({ params, request }) => {
 
     const requestAuthCode = isAuthorized(request.headers.get("cookie")?.split(";"));
     if (requestAuthCode !== 200) {

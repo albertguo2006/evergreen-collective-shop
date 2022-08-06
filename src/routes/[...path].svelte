@@ -1,5 +1,5 @@
 <script>
-import PageNotFound from "$lib/PageNotFound.svelte";
-
+	import PageNotFound from "$lib/PageNotFound.svelte";
 </script>
-<PageNotFound/>
+
+<PageNotFound />

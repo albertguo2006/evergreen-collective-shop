@@ -1,9 +1,7 @@
-import { writable } from "svelte/store";
-
 function createSessionManager() {
-    const { subscribe, set, update } = writable<Array<string>>([]);
+    let sessions: string[] = [];
     return {
-        subscribe,
+        get: () => sessions,
         createSession: (path?: string) => {
             const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             let sessionId = "";
@@ -12,7 +10,7 @@ function createSessionManager() {
             }
 
             // Reminder that the options for a cookie are not reflected in the request headers, thus we should not store the options
-            update(arr => [...arr, sessionId]);
+            sessions.push(sessionId);
 
             // The cookie is actually valid for less than 24 hours, as cookies are cleared on the server every 24 hours, regardless of when a cookie is set
             const expires = new Date();
@@ -20,8 +18,8 @@ function createSessionManager() {
             const options = path === undefined ? "" : `; Path=${path}` + `; SameSite=Strict; Secure; HttpOnly; Expires=${expires.toUTCString()}`;
             return sessionId + options;
         },
-        removeSession: (sessionId: string) => update(arr => arr.filter(id => id !== sessionId)),
-        clearAllSessions: () => update(arr => [])
+        removeSession: (sessionId: string) => sessions = sessions.filter(id => id !== sessionId),
+        clearAllSessions: () => sessions = []
     }
 }
 

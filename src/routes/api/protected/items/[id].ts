@@ -1,10 +1,9 @@
-import ItemStock from "$lib/ItemStock";
 import clientPromise from "$lib/mongoDB";
 import type { RequestHandler } from "@sveltejs/kit";
 import { ObjectId } from "mongodb";
 import { isAuthorized } from "../../public/authCheck";
 
-export const patch: RequestHandler = async ({ params, request }) => {
+export const PATCH: RequestHandler = async ({ params, request }) => {
 
     const requestAuthCode = isAuthorized(request.headers.get("cookie")?.split(";"));
     if (requestAuthCode !== 200) {
@@ -26,7 +25,7 @@ export const patch: RequestHandler = async ({ params, request }) => {
 
     try {
         const objectId = new ObjectId(params["id"]);
-        await collection.findOneAndUpdate({_id: objectId}, {$set: json});
+        await collection.findOneAndUpdate({ _id: objectId }, { $set: json });
 
         return {
             status: 200,

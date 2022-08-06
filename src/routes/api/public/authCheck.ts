@@ -1,13 +1,7 @@
 import { sessions } from "$lib/sessionManager";
 import type { RequestHandler } from "@sveltejs/kit";
 
-let sessionIds = Array<string>();
-
-sessions.subscribe(value => { //Hmm, this could cause a memory leak?
-    sessionIds = value;
-});
-
-export const get: RequestHandler = async ({ request }) => {
+export const GET: RequestHandler = async ({ request }) => {
     const cookies = request.headers.get("cookie")?.split(";");
     const responseCode = isAuthorized(cookies);
 
@@ -33,11 +27,8 @@ export function isAuthorized(cookies: string[] | undefined): 200 | 401 | 403 {
     }
 
     if (sessionId === undefined) return 401;
-    if (sessionIds.includes(sessionId)) return 200;
+    if (sessions.get().includes(sessionId)) return 200;
 
     // Auth failed
     return 403;
-
-
-
 }
