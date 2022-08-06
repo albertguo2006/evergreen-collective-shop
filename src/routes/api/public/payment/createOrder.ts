@@ -66,7 +66,7 @@ export const POST: RequestHandler = async ({ request }) => {
         ]
     });
 
-    cart.forEach((item) => {
+    for (const item of cart) {
 
         const ref = allItemStock.find((ref) => ref._id?.toString() === item.itemId?.toString());
 
@@ -88,7 +88,7 @@ export const POST: RequestHandler = async ({ request }) => {
             }
         }
 
-    })
+    }
 
     return {
         status: 200,
