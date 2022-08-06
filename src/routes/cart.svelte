@@ -366,7 +366,7 @@
 					<div class="flex flex-col rounded-lg m-4 p-4 gap-y-4">
 						{#if allowCheckout($cart)}
 							<h2 class="font-semibold text-slate-900 dark:text-slate-50">
-								Enter your email. We need it to contact you about pickup of your items
+								Please enter your email. We'll need it to contact you about the pickup or shipping of your item(s)
 							</h2>
 							{#if email !== undefined}
 								{#if !emailCheck(email)}

@@ -26,7 +26,7 @@
 </svelte:head>
 
 <h1 class="text-2xl font-bold text-stone-900 dark:text-stone-50 mx-auto pt-10 text-center">
-	The Evergreen Collective Foundation Shop. Take a look round :)
+	The Evergreen Collective Foundation Shop. Take a look around :)
 </h1>
 
 <div class="flex flex-col py-10 items-center">
