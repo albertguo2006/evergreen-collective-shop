@@ -3,6 +3,7 @@ import { writable } from "svelte-local-storage-store"; // This isn't the writabl
 
 
 export const cart = writable<Array<CartItem>>("cart", []);
+export const lastPurchasedItems = writable<Array<CartItem>>("lastPurchasedItems", []);
 
 export class CartItem {
     constructor(
